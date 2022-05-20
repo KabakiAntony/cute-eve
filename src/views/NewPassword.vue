@@ -1,5 +1,5 @@
 <template>
-    <!-- <Spinner />-->
+    <Spinner />
     <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
@@ -17,12 +17,12 @@
 <script>
 import CommonForm from "@/components/CommonForm.vue"
 import ShowAlert  from "@/components/ShowAlert.vue"
-// import Spinner from "@/components/Spinner.vue"
+import Spinner from "@/components/Spinner.vue"
 // import { unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default {
     name:'Update',
-    components : { CommonForm, ShowAlert },
+    components : { CommonForm, ShowAlert, Spinner },
     // props:['query'],
     data(){
     return {
