@@ -1,9 +1,9 @@
 <template>
     <div id="form-container">
-        <h2 class="form-header">{{ header }}</h2>
+        <h2 class="form-header">{{ header_text }}</h2>
         <form @submit.prevent="$emit('on_submit', form)">
             <label>Email</label>
-            <input type="email" v-model="form.email" required>
+            <input type="email" v-model="form.email" :disabled="disabled" required>
             <label>Password</label>
             <input type="password" v-model="form.password" required>
             <div>
@@ -23,12 +23,13 @@
 export default {
     name:"CommonForm",
     props:{
-        header: String,
+        header_text: String,
         submit_text: String,
         bottom_text: String,
         bottom_link_text: String,
         route_name: String,
         action:String,
+        disabled: Boolean,
     },
     data(){
         return{
