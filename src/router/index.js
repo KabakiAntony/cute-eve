@@ -10,10 +10,10 @@ const routes = [
     props: true,
   },
   {
-    path: "/update",
-    name: "Update",
-    component: () => import("../views/Update.vue"),
-    props: (route) => ({ query: route.query.tkn }),
+    path: "/new-password",
+    name: "NewPassword",
+    component: () => import("../views/NewPassword.vue"),
+    // props: (route) => ({ query: route.query.tkn }),
   },
   {
     path: "/forgot",
