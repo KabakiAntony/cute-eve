@@ -1,8 +1,8 @@
 <template>
     <!-- <Spinner /> -->
-     <!-- <Transition name="toast">
+     <Transition name="toast">
        <ShowAlert  v-if='show' :class='type' :message='message'/>
-    </Transition> -->
+    </Transition>
     <div class="holder">
         <h1 class="index-h1">Welcome, login to use the system.</h1>
         <img
@@ -20,14 +20,15 @@
 
 <script>
 import CommonForm from "@/components/CommonForm.vue"
-// import ShowAlert from "@/components/ShowAlert.vue"
+import ShowAlert from "@/components/ShowAlert.vue"
 // import Spinner from '@/components/Spinner.vue'
 // import { unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default{
     name: "Index",
     components:{
-        CommonForm
+        CommonForm,
+        ShowAlert,
     },
     data(){
       return {

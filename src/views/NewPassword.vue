@@ -1,8 +1,8 @@
 <template>
-    <!-- <Spinner />
+    <!-- <Spinner />-->
     <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
-    </Transition> -->
+    </Transition>
     <h1>Update your password to regain access to your account.</h1>
     <div class="holder">
       <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
@@ -16,13 +16,13 @@
 
 <script>
 import CommonForm from "@/components/CommonForm.vue"
-// import ShowAlert  from "@/components/ShowAlert.vue"
+import ShowAlert  from "@/components/ShowAlert.vue"
 // import Spinner from "@/components/Spinner.vue"
 // import { unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default {
     name:'Update',
-    components : { CommonForm },
+    components : { CommonForm, ShowAlert },
     // props:['query'],
     data(){
     return {

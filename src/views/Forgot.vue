@@ -1,8 +1,8 @@
 <template>
-    <!-- <Spinner />
+    <!-- <Spinner />-->
      <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
-    </Transition> -->
+    </Transition>
     <h1>Forgot your password ?</h1>
     <p>We got you, just enter your email below and we will send you a link to update your password shortly.</p>
     <div class="holder">
@@ -13,13 +13,13 @@
 
 <script>
 import ForgotForm from "@/components/ForgotForm.vue"
-// import ShowAlert from "@/components/ShowAlert.vue"
+import ShowAlert from "@/components/ShowAlert.vue"
 // import Spinner from '@/components/Spinner.vue'
 // import { unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default {
     name:'Forgot',
-    components : { ForgotForm },
+    components : { ForgotForm, ShowAlert },
     data(){
       return{
         type: null,
