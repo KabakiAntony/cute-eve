@@ -20,6 +20,9 @@ import { RouterView, RouterLink } from "vue-router";
     </ul>
   </nav>
   <RouterView />
+  <footer>
+    <p>&copy; Cute Eve Limited  2022&nbsp;&nbsp;<a href="https://twitter.com/kabakiantony">Developed by</a></p>
+  </footer>
 </template>
 
 <style>
