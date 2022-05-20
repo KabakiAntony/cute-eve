@@ -10,7 +10,11 @@
             class="side-img"
             src="../assets/cute_eve_login.svg"
         />
-    <CommonForm  v-bind="commonFormProps" @on_submit="handleSubmit" :action="action" />
+    <CommonForm  
+      v-bind="commonFormProps" 
+      @on_submit="handleSubmit" 
+      :action="action"
+      :disabled="disabled" />
     </div>
 </template>
 
@@ -28,7 +32,7 @@ export default{
     data(){
       return {
         commonFormProps:{
-        header:"Login",
+        header_text:"Login",
         submit_text:"Login",
         bottom_text:"Forgot Password ?",
         bottom_link_text:"Send link",
@@ -38,6 +42,7 @@ export default{
       message:null,
       show:false,
       action:null,
+      disabled:false,
       }
 
   },
