@@ -3,7 +3,7 @@
     <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
-    <h1>Update your password to regain access to your account.</h1>
+    <h1>Set a new password to regain access to your account.</h1>
     <div class="holder">
       <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
       <CommonForm  
@@ -11,7 +11,7 @@
       @on_submit="handleSubmit" 
       :action="action"
       :disabled="disabled" />
-      </div>  
+      </div>
 </template>
 
 <script>
