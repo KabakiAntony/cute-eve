@@ -31,7 +31,7 @@ const routes = [
     path: "/activate",
     name: "Activate",
     component: () => import("../views/Activate.vue"),
-    props: (route) => ({ query: route.query.tkn }),
+    // props: (route) => ({ query: route.query.tkn }),
   },
 ];
 
