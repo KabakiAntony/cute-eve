@@ -32,7 +32,8 @@ export default{
     return {
       type:"",
       message:"",
-      show:false
+      show:false,
+      role:"admin",
     }
   },
   methods:{
@@ -53,4 +54,24 @@ export default{
 }
 
 </script>
-<style></style>
+<style>
+.dashboard .submit{
+    width:20%;
+    margin-top:20px;
+    margin-bottom: 20px;
+    margin-left:15%;
+    font-size: 14px;
+}
+.dashboard input{
+    width:50%;
+    display:block;
+}
+.dashboard .list-left{
+  margin-left: 0%;
+}
+label {
+  padding-right:2%;
+  color:#24292F;
+  font-weight: bold;
+}
+</style>

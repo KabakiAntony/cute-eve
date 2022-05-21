@@ -1,5 +1,6 @@
 <template>
-    <Spinner />
+<div class="page">
+  <Spinner />
      <Transition name="toast">
        <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
@@ -16,6 +17,7 @@
       :action="action"
       :disabled="disabled" />
     </div>
+</div>
 </template>
 
 <script>

@@ -1,17 +1,20 @@
 <template>
- <Spinner />
-    <Transition name="toast">
-      <ShowAlert  v-if='show' :class='type' :message='message'/>
-    </Transition>
-    <h1>Create a password to activate and use your account.</h1>
-    <div class="holder">
-      <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
-      <CommonForm  
-      v-bind="commonFormProps" 
-      @on_submit="handleSubmit" 
-      :action="action"
-      :disabled="disabled" />
-      </div>
+<div class="page">
+  <Spinner />
+      <Transition name="toast">
+        <ShowAlert  v-if='show' :class='type' :message='message'/>
+      </Transition>
+      <h1>Create a password to activate and use your account.</h1>
+      <div class="holder">
+        <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
+        <CommonForm  
+        v-bind="commonFormProps" 
+        @on_submit="handleSubmit" 
+        :action="action"
+        :disabled="disabled" />
+        </div>
+</div>
+ 
 </template>
 
 <script>
@@ -67,5 +70,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

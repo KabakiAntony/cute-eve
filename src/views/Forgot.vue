@@ -1,5 +1,6 @@
 <template>
-    <Spinner />
+<div class="page">
+  <Spinner />
      <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
@@ -9,6 +10,7 @@
       <img alt="forgot password" class="side-img" src="../assets/cute_eve_forgot.svg">
       <ForgotForm  v-bind="forgotFormProps" @on_submit="handleSubmit" :action="action" />
     </div>
+</div>
 </template>
 
 <script>
