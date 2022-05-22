@@ -7,6 +7,7 @@
 <div class="actionContent" id="createUser">
     <h3>Create system user here</h3>
     <p>Easy just fill the simple form below, on success a user will recieve an email with further instructions.</p>
+    <hr>
     <form  @submit.prevent="createUser" class="dashboard">
         <div class="select-block">
         <label >Select role </label>
@@ -24,6 +25,7 @@
 <div class="actionContent" id="suspendUser">
     <h3>Suspend system user here</h3>
     <p>Just enter the email of the user you want to suspend.</p>
+    <hr>
     <form  @submit.prevent="suspendUser" class="dashboard">
         <div class="select-block">
         </div>
@@ -35,6 +37,7 @@
 <div class="actionContent" id="modifyRole">
     <h3>Change the role of a user here.</h3>
     <p>Select the new role you want to give a user, enter their email and click update role.</p>
+    <hr>
     <form  @submit.prevent="modifyRole" class="dashboard">
         <div class="select-block">
         <label >Select role </label>
