@@ -33,7 +33,7 @@ export default{
       type:"",
       message:"",
       show:false,
-      role:"admin",
+      role:"procurement",
     }
   },
   methods:{
@@ -60,7 +60,6 @@ export default{
     margin-top:20px;
     margin-bottom: 20px;
     margin-left:15%;
-    font-size: 14px;
 }
 .dashboard input{
     width:50%;
@@ -73,5 +72,24 @@ label {
   padding-right:2%;
   color:#24292F;
   font-weight: bold;
+}
+.update-form{
+  width:50%;
+}
+.update-form .submit{
+  width:50%;
+}
+/* item list headings */
+.items-list{
+  margin-top:1em;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color:#3493DF;
+}
+.items-list li{
+  width: 20%;
+}
+.li-label{
+  color:#ffffff;
 }
 </style>
