@@ -8,14 +8,14 @@
         <ProcurementDash @actionFeedback="actionNotification"/>
     </div>
     <div v-if="role === 'sales'">
-        <SalesDash @actionFeedback="actionNotification"/>
+        <!-- <SalesDash @actionFeedback="actionNotification"/> -->
     </div>
 </template>
 
 <script>
 import Spinner from "@/components/Spinner.vue"
 import AdminDash from "@/components/AdminDash.vue"
-import SalesDash from "@/components/SalesDash.vue"
+// import SalesDash from "@/components/SalesDash.vue"
 import ProcurementDash from "@/components/ProcurementDash.vue"
 import DashNotifications from "@/components/DashNotifications.vue"
 
@@ -24,7 +24,7 @@ export default{
     components:{
         Spinner,
         AdminDash,
-        SalesDash,
+        // SalesDash,
         ProcurementDash,
         DashNotifications,
     },
