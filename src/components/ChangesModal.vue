@@ -1,6 +1,7 @@
 <template>
-    <div class="backdrop"  @click.self="closeModal">
+    <div class="backdrop" id="changes-modal">
         <div class="modal">
+        <div class="close"  @click.self="closeModal">+</div>
         <div class="item-to-update">
         <h3>You can change the <span>Units / Price /Name</span> of this item</h3>
         <form  @submit.prevent="updateItem" class="dashboard update-form">
@@ -32,7 +33,8 @@ export default {
     },
     methods:{
         closeModal(){
-            this.$emit('close')
+            let modal = document.getElementById("changes-modal");
+            modal.style.display = "none";
         }
     }
 }

@@ -206,6 +206,19 @@ label {
   text-align: center;
   display:none;
 }
+/* close button */
+.close {
+  font-size: 45px;
+  font-weight: 600;
+  transform: rotate(45deg);
+  float:right;
+}
+.close:hover{
+  color:#0096D6;
+  cursor:pointer;
+}
+
+
 span{
   font-weight: bold;
   color:#b8251b;
