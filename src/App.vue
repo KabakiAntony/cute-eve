@@ -7,8 +7,7 @@ export default {
       try{
           this.$store.commit('SET_IS_LOGGED_IN',false)
           this.$store.commit('SET_AUTH_TOKEN',null)
-          this.$store.commit('SET_SCREEN_NAME',null)
-          this.$router.push({name:"SignIn"})
+          this.$router.push({name:"Index"})
       }
       catch(err){
         console.log(err)
@@ -16,10 +15,14 @@ export default {
     }
   },
   computed:{
-    ...mapGetters({
-      isLoggedIn:"IsLoggedIn", 
-      screen_name:"ScreenName",
-      }),
+    ...mapGetters({ token:"AuthToken", isLoggedIn:"IsLoggedIn" }),
+    screenName(){
+      if(this.token){
+        const tokenParts = this.token.split('.')
+        const tokenBody = JSON.parse(atob(tokenParts[1]))
+        return tokenBody.screen_name
+      }
+    }
   },  
 }
 </script>
@@ -30,11 +33,8 @@ export default {
       <li class="logo">Cute Eve</li>
       <div class="right-nav">
         <li v-if="isLoggedIn">
-          <router-link :to="{ name: 'Dashboard'}">Hello {{ screen_name }}</router-link>
-          <a class="Signout" @click="logOut">Logout</a>
-        </li>
-        <li v-else>
-          <router-link :to="{ name: 'Index' }">Home</router-link>
+          <router-link :to="{ name: 'Dashboard'}">Hi {{ screenName }}</router-link>
+          <a class="logout" @click="logOut">Logout</a>
         </li>
       </div>
     </ul>
