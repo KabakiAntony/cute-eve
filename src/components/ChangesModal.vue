@@ -3,7 +3,8 @@
         <div class="modal">
         <div class="close"  @click.self="closeModal">+</div>
         <div class="item-to-update">
-        <h3>You can change the <span>Units / Price /Name</span> of this item</h3>
+        <h3>Update <span>Units / Price /Name</span> of this item</h3>
+        <hr>
         <form  @submit.prevent="updateItem" class="dashboard update-form">
         <label>Item</label>
         <input type="text">
@@ -43,9 +44,10 @@ export default {
 <style>
 .modal{
     width:80%;
-    margin: 50px auto;
+    margin: 60px auto;
     background-color: #dbdbdb;
     border-radius: 10px;
+    padding:2px 10px;
 }
 .backdrop{
     left:0;
