@@ -31,11 +31,11 @@
     </div>
     <div class="items-list">
         <ul>
-            <li><label class="li-label">Item</label></li>
-            <li><label class="li-label">Units Available</label></li>
-            <li><label class="li-label">Buying Price</label></li>
-            <li><label class="li-label">Selling Price</label></li>
-            <li><label class="li-label">Added On</label></li>
+            <li>Comely bleach</li>
+            <li>40</li>
+            <li>120</li>
+            <li>180</li>
+            <li>23/05/2022</li>
         </ul>
     </div>
     <div v-if="showChangesModal">
