@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Index from "../views/Index.vue";
-// import store from "../store"
+import store from "../store"
 
 const routes = [
   {
@@ -13,7 +13,7 @@ const routes = [
     path: "/new-password",
     name: "NewPassword",
     component: () => import("../views/NewPassword.vue"),
-    // props: (route) => ({ query: route.query.tkn }),
+    props: (route) => ({ query: route.query.tkn }),
   },
   {
     path: "/forgot",
@@ -25,13 +25,13 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: () => import("../views/Dashboard.vue"),
-    // meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
   },
   {
     path: "/activate",
     name: "Activate",
     component: () => import("../views/Activate.vue"),
-    // props: (route) => ({ query: route.query.tkn }),
+    props: (route) => ({ query: route.query.tkn }),
   },
 ];
 
@@ -39,18 +39,18 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!store.getters.IsLoggedIn) {
-//       next({ name: "Index" });
-//     }
-//    else {
-//      next()
-//     }
-//   }
-//   else{
-//     next()
-//   } 
-// })
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.getters.IsLoggedIn) {
+      next({ name: "Index" });
+    }
+   else {
+     next()
+    }
+  }
+  else{
+    next()
+  } 
+})
 
 export default router
