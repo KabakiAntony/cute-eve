@@ -9,7 +9,7 @@ export function openAction(evt, actionName){
         actionlinks[i].className = actionlinks[i].className.replace(" active", "");
     }
     document.getElementById(actionName).style.display = "block";
-    // document.getElementById('profileInstruction').style.display = "none";
+    document.getElementById('profileInstruction').style.display = "none";
     evt.currentTarget.className += " active";
   };
 
