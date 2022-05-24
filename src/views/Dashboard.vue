@@ -1,21 +1,22 @@
 <template>
     <Spinner/>
     <DashNotifications v-if='show' :class='type' :message='message'/>
-    <div v-if="role === 'admin'">
+    <div v-if="userRole === 'admin'">
         <AdminDash @actionFeedback="actionNotification"/>
     </div>
-    <div v-if="role === 'procurement'">
+    <div v-if="userRole === 'procurement'">
         <ProcurementDash @actionFeedback="actionNotification"/>
     </div>
-    <div v-if="role === 'sales'">
-        <!-- <SalesDash @actionFeedback="actionNotification"/> -->
+    <div v-if="userRole === 'sales'">
+      <SalesDash @actionFeedback="actionNotification"/>
     </div>
 </template>
 
 <script>
+import { mapGetters }  from 'vuex'
 import Spinner from "@/components/Spinner.vue"
 import AdminDash from "@/components/AdminDash.vue"
-// import SalesDash from "@/components/SalesDash.vue"
+import SalesDash from "@/components/SalesDash.vue"
 import ProcurementDash from "@/components/ProcurementDash.vue"
 import DashNotifications from "@/components/DashNotifications.vue"
 
@@ -24,7 +25,7 @@ export default{
     components:{
         Spinner,
         AdminDash,
-        // SalesDash,
+        SalesDash,
         ProcurementDash,
         DashNotifications,
     },
@@ -33,7 +34,6 @@ export default{
       type:"",
       message:"",
       show:false,
-      role:"procurement",
     }
   },
   methods:{
@@ -48,9 +48,16 @@ export default{
       }, 5000)
     }
   },
-//   computed:{
-//     ...mapGetters({role:"returnUserRole"})
-//   }    
+  computed:{
+    ...mapGetters({ token:"AuthToken" }),
+    userRole(){
+        if(this.token){
+          const tokenParts = this.token.split('.')
+          const tokenBody = JSON.parse(atob(tokenParts[1]))
+          return tokenBody.role
+        }
+    }
+  }
 }
 
 </script>
