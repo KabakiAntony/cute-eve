@@ -212,9 +212,10 @@ label {
   font-weight: 600;
   transform: rotate(45deg);
   float:right;
+  color: #2C974B;
 }
 .close:hover{
-  color:#0096D6;
+  color: #b8251b;
   cursor:pointer;
 }
 
