@@ -11,7 +11,7 @@ app.use(router);
 app.mount("#app");
 
 
-app.config.globalProperties.$api = "http://127.0.0.1:5000/"
-store.$api = "http://127.0.0.1:5000/"
-// app.config.globalProperties.$api = "https://cute-eve-pos.herokuapp.com/"
-// store.$api = "https://cute-eve-pos.herokuapp.com/"
+// app.config.globalProperties.$api = "http://127.0.0.1:5000/"
+// store.$api = "http://127.0.0.1:5000/"
+app.config.globalProperties.$api = "https://cute-eve-pos.herokuapp.com/"
+store.$api = "https://cute-eve-pos.herokuapp.com/"
