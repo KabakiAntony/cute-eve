@@ -47,7 +47,7 @@ nav a {
   color:#ffffff;
   text-transform: capitalize;
 }
-.nav-right{
+.right-nav{
   float: right;
 }
 ul {
@@ -64,8 +64,9 @@ nav .username{
   font-weight: bold;
   color:rgb(0, 0, 0);
 }
-nav .signout:hover{
+nav .logout:hover{
   cursor:pointer;
+  color:#2C974B;
 }
 footer {
   position:absolute;
@@ -219,6 +220,10 @@ label {
   cursor:pointer;
 }
 
+.bigger-font{
+  font-size:120%;
+  color:#b8251b;
+}
 
 span{
   font-weight: bold;
