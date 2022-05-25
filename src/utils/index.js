@@ -32,3 +32,17 @@ export function openAction(evt, actionName){
     this.message = msg
     this.type = toast_type
   }
+
+  export function comparePasswords(){
+    const pass_one = document.getElementById('password');
+    const pass_two = document.getElementById('confirm-password');
+
+    if(pass_one.value === pass_two.value){
+      pass_one.style.border = "2px solid  #2C974B";
+      pass_two.style.border = "2px solid  #2C974B";
+      return true;
+    }
+    pass_one.style.border = "2px solid  #b8251b";
+    pass_two.style.border = "2px solid  #b8251b";
+    return false;
+  }
