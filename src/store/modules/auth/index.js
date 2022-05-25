@@ -1,7 +1,6 @@
 const state = {        
     auth_token:null,
-    isLoggedIn :false,
-    screen_name:null,
+    isLoggedIn :false
 }
 
 const getters = {
@@ -12,14 +11,10 @@ const getters = {
   IsLoggedIn(state){
       return state.isLoggedIn
   },
-
-  ScreenName(state){
-      return state.screen_name
-  }
 }
 
 const actions = {
-    async signIn({commit}, userData){
+    async logIn({commit}, userData){
         try{
             const url = `${this.$api}users/login`
             const res = await fetch(url,{
@@ -32,7 +27,6 @@ const actions = {
             const data = await res.json()
             if (data.status === 200){
                 commit('SET_AUTH_TOKEN',data.data.auth_token)
-                commit('SET_SCREEN_NAME', data.data.screen_name)
                 commit('SET_IS_LOGGED_IN',true)
             }
             return data
@@ -51,11 +45,7 @@ const mutations = {
     
      SET_IS_LOGGED_IN(state,payload){
        state.isLoggedIn = payload
-     },
-    
-     SET_SCREEN_NAME(state, payload){
-       state.screen_name = payload
-     },
+     }
 }
 
 export default{

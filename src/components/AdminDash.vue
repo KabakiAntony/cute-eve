@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { openAction }  from '../utils'
+import { openAction, unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default{
     name: "AdminDash",
@@ -65,10 +65,64 @@ export default{
             create_user_submit: "Create",
             modify_user_submit: "Modify",
             suspend_user_submit: "Suspend",
+            role:null,
+            email:null,
+            action:null,
         }
     },
     methods:{
         openAction,
+        unloadToast,
+        loadToast,
+        loadSpinner,
+        unloadSpinner, 
+        async createUser(){
+            this.action="submitting";
+            this.create_user_submit=" ",
+            this.loadSpinner();
+             const user_data={
+                email:this.email,
+                role:this.role
+            }
+            try{
+                const url = `${this.$api}users/create`;
+                const res = await fetch(url,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth_token':this.$store.getters.AuthToken
+                },
+                body: JSON.stringify(user_data)
+                })
+                const data = await res.json()
+                if (data.status === 201){
+                this.message = data.data.message
+                this.type = "success"
+                this.$emit('actionFeedback', this.message,this.type)
+                this.unloadSpinner();
+                }
+                else{
+                this.message = data.error
+                this.type ="error"
+                this.unloadSpinner();
+                this.$emit('actionFeedback', this.message,this.type)
+                }
+            }
+            catch(err){
+               let error = "The server is offline or unreachable."
+                return err
+            }
+            this.action = "";
+            this.create_user_submit ="Create";
+        },
+        async suspendUser(){
+            // this action will be aded later
+            this.action="submitting";
+        },
+        async modifyRole(){
+            // this action will be added later
+            this.action="submitting";
+        },
     }
 }
 </script>
