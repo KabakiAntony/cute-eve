@@ -24,7 +24,7 @@
 import CommonForm from "@/components/CommonForm.vue"
 import ShowAlert from "@/components/ShowAlert.vue"
 import Spinner from '@/components/Spinner.vue'
-import { unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
+import { loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default{
     name: "Index",
@@ -52,8 +52,7 @@ export default{
   },
   methods:{
     loadSpinner,
-    unloadSpinner, 
-    unloadToast, 
+    unloadSpinner,  
     loadToast,
     async handleSubmit(theForm){
             this.action="submitting"
@@ -63,14 +62,12 @@ export default{
               if(data.status === 200){
                 this.unloadSpinner()
                 this.loadToast(data.data.message, "success")
-                this.unloadToast()
                 setTimeout(()=>{
                 this.$router.push({name: 'Dashboard'})
                 },3000)
             } else {
               this.unloadSpinner()
               this.loadToast(data, "error")
-              this.unloadToast()
               }
             this.action = ""
             this.commonFormProps.submit_text = "Login"
