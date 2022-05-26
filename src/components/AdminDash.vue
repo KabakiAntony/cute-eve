@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { openAction, unloadToast, loadToast, loadSpinner, unloadSpinner } from "../utils"
+import { openAction, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default{
     name: "AdminDash",
@@ -72,7 +72,6 @@ export default{
     },
     methods:{
         openAction,
-        unloadToast,
         loadToast,
         loadSpinner,
         unloadSpinner, 

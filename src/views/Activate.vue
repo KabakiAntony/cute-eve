@@ -30,7 +30,7 @@
 <script>
 import Spinner from "@/components/Spinner.vue"
 import ShowAlert from "@/components/ShowAlert.vue"
-import { unloadToast, loadToast, loadSpinner, unloadSpinner, comparePasswords } from "../utils"
+import { loadToast, loadSpinner, unloadSpinner, comparePasswords } from "../utils"
 
 export default {
     name: 'Activate',
@@ -51,7 +51,6 @@ export default {
         loadSpinner,
         unloadSpinner,
         loadToast,
-        unloadToast,
         comparePasswords,
         async handleSubmit(){
           const user_data = {
@@ -78,7 +77,6 @@ export default {
                 this.message = data.data;
                 this.type = "success";
                 this.loadToast(this.message, "success");
-                this.unloadToast();
                 setTimeout(()=>{
                 this.$router.push({name: 'Dashboard'})
                 },3000)
@@ -88,7 +86,6 @@ export default {
                 this.type ="error";
                 this.unloadSpinner();
                 this.loadToast(this.message, this.type);
-                this.unloadToast();
                 }
             }
             catch(err){
