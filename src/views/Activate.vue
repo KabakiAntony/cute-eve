@@ -54,7 +54,7 @@ export default {
         comparePasswords,
         async handleSubmit(){
           const user_data = {
-              "password":password,
+              "password":this.password,
               "origin":"activate"
           }
           if(this.comparePasswords()){
