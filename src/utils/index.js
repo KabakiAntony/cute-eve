@@ -21,16 +21,15 @@ export function openAction(evt, actionName){
     document.getElementById('show-spinner').style.display = " none";
   }
 
-  export function unloadToast(){
-    setTimeout(()=>{
-          this.type = null
-          this.message = null
-        }, 6000)
-  }
   export function loadToast(msg, toast_type){
     this.show = true
     this.message = msg
     this.type = toast_type
+
+    setTimeout(()=>{
+          this.type = null
+          this.message = null
+        }, 6000)
   }
 
   export function comparePasswords(){
