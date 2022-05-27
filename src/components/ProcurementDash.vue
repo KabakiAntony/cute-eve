@@ -8,7 +8,7 @@
     <h3>Upload new stock file</h3>
     <p><span>New stock is stock that did not exist before and now your are introducing it.</span></p>
     <hr>
-  <form @submit.prevent="uploadEmployeeFile" class="dashboard">
+  <form @submit.prevent="uploadStockFile" class="dashboard">
     <label>New stock file</label>
     <input type="file"  class="file" id="newItemFile" accept=".xlsx, .xls" required/>
     <button :class="action" class="submit list-left">{{ new_stock_submit }}</button>
@@ -48,9 +48,9 @@
 </template>
 
 <script>
-import { openAction }  from '../utils'
 import Search from  "@/components/Search.vue"
 import ChangesModal  from "@/components/ChangesModal.vue"
+import { openAction, loadToast, loadSpinner, unloadSpinner } from "../utils"
 
 export default{
     name: "ProcurementDash",
@@ -66,6 +66,7 @@ export default{
             generate_report_submit: "Suspend",
             update_item_submit: "Save changes",
             showChangesModal:true,
+            action:null,
             changesModalProps:{
                 update_item_submit:"Save changes"
             }
@@ -73,8 +74,48 @@ export default{
     },
     methods:{
         openAction,
+        loadToast,
+        loadSpinner,
+        unloadSpinner,
         closeModal(){
             this.showChangesModal = !this.showChangesModal;
+        },
+        async uploadStockFile(){
+            this.action="submitting";
+            // this.loadSpinner();
+            this.new_stock_submit = "";
+            let fileInput = document.getElementById('newItemFile');
+            const theFile = new FormData();
+            theFile.append('newItemFile',fileInput.files[0]);
+            try{
+                    const url = `${this.$api}items/upload`
+                    const res = await fetch(url,{
+                    method:'POST',
+                    headers:{
+                        'auth_token':this.$store.getters.AuthToken
+                    },
+                    body: theFile
+                    })
+                    const data = await res.json()
+                    if (data.status === 200){
+                        this.unloadSpinner();
+                        this.message = data.data
+                        this.type = "success"
+                        this.$emit('actionFeedback', this.message,this.type)
+                    }
+                    else{
+                        this.unloadSpinner();
+                        this.message = data.error
+                        this.type ="error"
+                        this.$emit('actionFeedback', this.message,this.type)
+                    }
+                }
+                catch(err){
+                    let error = "The server is offline or unreachable."
+                    return err
+                }
+                this.action = ""
+                this.new_stock_submit="Upload"
         },
     }
 }
