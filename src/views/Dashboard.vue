@@ -82,22 +82,24 @@ label {
   font-weight: bold;
 }
 .update-form{
-  width:50%;
+  padding-bottom: 0.5%;
+  width:80%;
 }
 .update-form .submit{
   width:50%;
 }
 /* item list headings */
 .items-list{
-  margin-top:1em;
-  border-radius: 0.5rem;
+  margin-top:0.3em;
   overflow: hidden;
   background-color:#3493DF;
+  text-transform: uppercase;
 }
 .items-list li{
-  width: 20%;
+  width:25%;
 }
 .li-label{
   color:#ffffff;
+  text-transform: capitalize;
 }
 </style>
