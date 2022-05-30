@@ -1,5 +1,5 @@
 <template>
-  <div :class="type" id="dashboard_notification">{{message}}</div>
+  <div :class="type"  id="dashboard_notification">{{message}}</div>
 </template>
 
 <script>
@@ -25,8 +25,8 @@ export default {
   margin: 20px auto;
   color:black;
   text-align: left;
-  border-radius: 0.5rem;
-  padding: 0.6rem;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
   font-size:100%;
   width:90%;
 }
