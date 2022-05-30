@@ -3,7 +3,7 @@
         <h2 class="form-header">{{ header_text }}</h2>
         <form @submit.prevent="$emit('on_submit', form)">
             <label>Email</label>
-            <input type="email" v-model="form.email" :disabled="disabled" required>
+            <input type="email" v-model="form.email"  required>
             <label>Password</label>
             <input type="password" v-model="form.password" required>
             <div>
@@ -29,7 +29,6 @@ export default {
         bottom_link_text: String,
         route_name: String,
         action:String,
-        disabled: Boolean,
     },
     data(){
         return{

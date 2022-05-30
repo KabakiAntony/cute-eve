@@ -21,10 +21,10 @@ const actions = {
           })
           const data = await res.json()
           if (data.status === 200){
-              commit('SET_TODOS',data.data)
+              commit('SET_ITEMS',data.data)
           }
           else if(data.status === 404){
-            commit('RESET_TODOS')
+            commit('RESET_ITEMS')
           }
           return data
         }

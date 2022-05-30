@@ -14,8 +14,7 @@
     <CommonForm  
       v-bind="commonFormProps" 
       @on_submit="handleSubmit" 
-      :action="action"
-      :disabled="disabled" />
+      :action="action"/>
     </div>
 </div>
 </template>
@@ -46,7 +45,6 @@ export default{
       message:null,
       show:false,
       action:null,
-      disabled:false,
       }
 
   },
