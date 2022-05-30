@@ -3,39 +3,113 @@
         <div class="modal">
         <div class="close"  @click.self="closeModal">+</div>
         <div class="item-to-update">
-        <h3>Update <span>Units / Price /Name</span> of this item</h3>
+            <h3 class="text-center">Update the item below</h3>
+            <div class="items-list">
+            <ul>
+                <li><label class="li-label">Item</label></li>
+                <li><label class="li-label">Units Available</label></li>
+                <li><label class="li-label">Buying Price</label></li>
+                <li><label class="li-label">Selling Price</label></li>
+            </ul>
+        </div>
+        <div class="items no-border">
+            <ul>
+                <li>{{ item_name }}</li>
+                <li>{{ item_units }}</li>
+                <li>{{ item_buying_price}}</li>
+                <li>{{ item_selling_price }}</li>
+            </ul>
+        </div>
         <hr>
+        <DashNotifications v-if='show' :class='type' :message='message'/>
         <form  @submit.prevent="updateItem" class="dashboard update-form">
-        <label>Item</label>
-        <input type="text">
+        <input type="hidden" v-model="item_id">
+        <label>Name</label>
+        <input type="text" v-model="item_name">
         <label>Units Available</label>
-        <input type="text">
-        <label>Selling Price</label>
-        <input type="text">
+        <input type="number" v-model="item_units" min="0">
         <label>Buying Price</label>
-        <input type="text">
+        <input type="number" v-model="item_buying_price" min="0" step="0.01">
+        <label>Selling Price</label>
+        <input type="number" v-model="item_selling_price" min="0" step="0.01">
         <button :class="action" class="submit list-left">{{ update_item_submit }}</button>
         </form>
+        <p class="text-center"><span>Make sure you save your changes to the database</span></p>
     </div>
-        </div>
+    </div>
     </div>
 </template>
 
 <script>
+import DashNotifications from "@/components/DashNotifications.vue"
+
 export default {
     name: "ChangesModal",
+    emits:['clearSearchResult'],
+    components:{DashNotifications},
     props: {
-        update_item_submit: String,
-    },
+        item_id:String,
+        item_name:String,
+        item_units:Number,
+        item_buying_price:Number,
+        item_selling_price:Number,
+        },
     data(){
         return{
-
+            update_item_submit:"Save changes",
+            action:null,
+            show:false,
+            type:"",
+            message:"",
         }
     },
     methods:{
-        closeModal(){
-            let modal = document.getElementById("changes-modal");
-            modal.style.display = "none";
+        async closeModal(){
+            this.$emit('clearSearchResult');            
+            document.getElementById("changes-modal").style.display = "none";
+        },
+        async updateItem(){
+            this.action="submitting";
+            this.update_item_submit = "";
+            const item_data = {
+                "item_sys_id":this.item_id,
+                "item":this.item_name,
+                "units":this.item_units,
+                "buying_price":this.item_buying_price,
+                "selling_price":this.item_selling_price
+            };
+            try{
+                    const url = `${this.$api}items/${this.item_id}`
+                    const res = await fetch(url,{
+                    method:'PATCH',
+                    headers:{
+                    'Content-Type': 'application/json',
+                    'auth_token':this.$store.getters.AuthToken
+                    },
+                    body: JSON.stringify(item_data)
+                    })
+                    const data = await res.json()
+                    if (data.status === 200){
+                        this.message = data.data;
+                        this.type = "success";
+                        this.show = true;
+                        setTimeout(()=>{
+                            this.type = "none"
+                            this.message = ""
+                        }, 5000)
+                    }
+                    else{
+                        this.message = data.error;
+                        this.type ="error";
+                        this.show = true;
+                    }
+                }
+                catch(err){
+                    let error = "The server is offline or unreachable."
+                    return err
+                }
+                this.action = "";
+                this.update_item_submit="Save changes";
         }
     }
 }
@@ -44,7 +118,7 @@ export default {
 <style>
 .modal{
     width:80%;
-    margin: 60px auto;
+    margin: 0px auto;
     background-color: #dbdbdb;
     border-radius: 10px;
     padding:2px 10px;
@@ -56,5 +130,8 @@ export default {
     background: rgba(0,0,0,0.5);
     width: 100%;
     min-height: 100vh;
+}
+.modal-size{
+  width: 100%;
 }
 </style>
