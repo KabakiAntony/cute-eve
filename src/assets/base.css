@@ -214,6 +214,7 @@ label {
   transform: rotate(45deg);
   float:right;
   color: #2C974B;
+  padding-left:0.5em;
 }
 .close:hover{
   color: #b8251b;
