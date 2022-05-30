@@ -1,12 +1,21 @@
 <template>
     <div id="search-area">
-        <input type="text" id="search_text" placeholder="Search item ..."  autocomplete="off">
-        <button id="search_button"  type="button">Search</button>
+        <input type="text" 
+        id="search_text"
+        v-model="search_text" 
+        placeholder="Search item ..."
+        @keyup="$emit('on_click_search', search_text)"
+        autocomplete="off">
     </div>
 </template>
 <script>
 export default{
     name:"Search",
+    data(){
+        return {
+            search_text:null,
+        }
+    }
 }
 </script>
 <style scoped>
@@ -22,16 +31,5 @@ export default{
     border:1px solid #2C974B;
     flex:2;
     height: 35px;
-} 
-#search_button{
-    width: 15%;
-    color:#ffffff;
-    background-color: #2C974B;
-    height: 35px;
-}
-#search_button:hover{
-  background-color: #689e77;
-  color: #24292F;
-  cursor: pointer;
 }
 </style>
