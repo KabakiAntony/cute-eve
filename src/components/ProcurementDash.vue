@@ -16,9 +16,10 @@
 </div>
 <div class="actionContent" id="updateStock">
     <h3>Make changes to stock</h3>
-    <p>You can make changes to stock that is change things like <span>Units, Prices, Name</span></p>
-    <p>First step is to search for the item in the search bar, then select it on the table.</p>
-    <Search/>
+    <p>You can make changes to an item that is change things like <span>Units, Prices, Name</span></p>
+    <p>First step is to search for the item in the search bar.</p>
+    <p><span>If the item is found select it by clicking on it.</span></p>
+    <Search @on_click_search="handleSearch"/>
     <hr>
     <div class="items-list">
         <ul>
@@ -26,21 +27,17 @@
             <li><label class="li-label">Units Available</label></li>
             <li><label class="li-label">Buying Price</label></li>
             <li><label class="li-label">Selling Price</label></li>
-            <li><label class="li-label">Added On</label></li>
         </ul>
     </div>
-    <div class="items-list">
+    <div class="items" v-for=" item in search_result" :key="item.item_sys_id" @click="item_to_update(item)">
         <ul>
-            <li>Comely bleach</li>
-            <li>40</li>
-            <li>120</li>
-            <li>180</li>
-            <li>23/05/2022</li>
+            <li>{{ item.item }}</li>
+            <li>{{ item.units }}</li>
+            <li>{{ item.buying_price}}</li>
+            <li>{{ item.selling_price }}</li>
         </ul>
     </div>
-    <div v-if="showChangesModal">
-        <ChangesModal v-bind="changesModalProps" @close="closeModal"/>
-    </div>
+    <ChangesModal v-bind="changesModalProps" :action="action" @clearSearchResult="clearTableAndUpdate"/>
 </div>
 <div class="actionContent" id="generateReports">
     <p>generate reports</p>
@@ -61,15 +58,21 @@ export default{
     },
     data(){
         return{
+            changesModalProps:{
+                item_id:"",
+                item_name:"",
+                item_units:0,
+                item_buying_price:0,
+                item_selling_price:0,
+            },
             new_stock_submit: "Upload",
             update_stock_submit: "Modify",
             generate_report_submit: "Suspend",
             update_item_submit: "Save changes",
-            showChangesModal:true,
+            showChangesModal:false,
             action:null,
-            changesModalProps:{
-                update_item_submit:"Save changes"
-            }
+            items:[],
+            search_result:[],
         }
     },
     methods:{
@@ -77,12 +80,9 @@ export default{
         loadToast,
         loadSpinner,
         unloadSpinner,
-        closeModal(){
-            this.showChangesModal = !this.showChangesModal;
-        },
         async uploadStockFile(){
             this.action="submitting";
-            // this.loadSpinner();
+            this.loadSpinner();
             this.new_stock_submit = "";
             let fileInput = document.getElementById('newItemFile');
             const theFile = new FormData();
@@ -117,7 +117,55 @@ export default{
                 this.action = ""
                 this.new_stock_submit="Upload"
         },
+        handleSearch(searchItem){
+            const filter_result = this.items.filter((arr)=>{
+            return arr.item.toLowerCase().includes(`${searchItem}`.toLowerCase())
+        });
+        this.search_result = filter_result
+        },
+        item_to_update(this_item){
+            document.getElementById("changes-modal").style.display = "block";
+            this.changesModalProps.item_id = this_item.item_sys_id;
+            this.changesModalProps.item_name = this_item.item;
+            this.changesModalProps.item_units = this_item.units;
+            this.changesModalProps.item_buying_price = this_item.buying_price;
+            this.changesModalProps.item_selling_price = this_item.selling_price;
+        },
+        async clearTableAndUpdate(){
+            // clear search result and update table
+            this.search_result.length = 0;
+            await this.$store.dispatch('getItems');
+            this.items = this.$store.getters.Items;
+        }
+        // other methods come here
+    },
+    // lifecycle hooks below here.
+    async created(){
+        await this.$store.dispatch('getItems')
+        this.items = this.$store.getters.Items
+    },
+    mounted(){
+        // we don't want the modal showing on load
+        // the reason is we don't want to use v-show or v-if
+        document.getElementById("changes-modal").style.display = "none";
     }
 }
 </script>
-<style></style>
+<style>
+.items{
+    overflow: hidden;
+    background-color:#DBDBDB;
+    font-weight: bold;
+    border-bottom:1px solid #000000;
+}
+.items li{
+  width: 25%;
+}
+.items:hover{
+    background-color:#3c9b3c;
+    color:#ffffff;
+}
+.no-border{
+    border: none;
+}
+</style>
