@@ -65,7 +65,7 @@ export default{
                 },3000)
             } else {
               this.unloadSpinner()
-              this.loadToast(data.error, "error")
+              this.loadToast(data, "error")
               }
             this.action = ""
             this.commonFormProps.submit_text = "Login"
