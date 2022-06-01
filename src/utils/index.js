@@ -45,3 +45,7 @@ export function openAction(evt, actionName){
     pass_two.style.border = "2px solid  #b8251b";
     return false;
   }
+
+  export function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
