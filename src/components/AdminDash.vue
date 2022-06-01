@@ -14,7 +14,7 @@
         <select  v-model="role" required>
         <option value="admin">Admin</option>
         <option value="procurement">Procurement</option>
-        <option value="Sales">Sales</option>
+        <option value="sales">Sales</option>
         </select>
         </div>
         <label >Email </label>
@@ -44,7 +44,7 @@
         <select  v-model="role" required>
         <option value="admin">Admin</option>
         <option value="procurement">Procurement</option>
-        <option value="Sales">Sales</option>
+        <option value="sales">Sales</option>
         </select>
         </div>
         <label >Email </label>

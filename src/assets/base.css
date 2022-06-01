@@ -388,26 +388,7 @@ button{
    .logo{
        font-size:1.5em;
    }
-   .add-todo{
-     margin: 0 auto;
-     width:90%;
-     margin-bottom: 20px;
-   }
-   .add-todo-submit{
-     font-size: 100%;
-     width:20%;
-   }
-   .todo-list{
-     width: 90%;
-     margin:0 auto;
-     margin-bottom:5px;
-   }
-   .todo-list-li{
-     font-size:100%;
-   }
-   .action-buttons{
-     margin-left:70%;
-   }
+  
    .holder{
    display: inline-block;
    width: 80%;
