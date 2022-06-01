@@ -35,9 +35,7 @@
                 <input type="text" id="available_units" v-model="item_units" disabled>
                 <label>Units to sell</label>
                 <input type="number" id="units_to_sell" v-model="units_to_sell" min="0" step="0.01">
-                <button type="submit" class="submit">
-                {{ submit_text }}
-                </button>
+                <button type="submit" class="submit btn-add">Add to cart</button>
             </form>
         </div>
     </div>
@@ -78,6 +76,12 @@
         :disabled="disabled">
                 {{ post_sale }}
         </button>
+        <button 
+        type="submit" 
+        class="submit clear-cart" 
+        :class="action" 
+        @click="clearCart" 
+        :disabled="disabled">Clear cart</button>
     </div>
     </div>
 </div>
@@ -106,7 +110,6 @@ export default{
             item_units:null,
             item_selling_price:null,
             units_to_sell:null,
-            submit_text:"Add to cart",
             post_sale:"Post sale",
             disabled:true,
         }
@@ -152,6 +155,11 @@ export default{
             };
             this.items_on_cart.push(item_to_cart)
             this.disabled = false;
+            this.item_id = "";
+            this.item_name = "";
+            this.item_units = "";
+            this.item_selling_price = "";
+            this.units_to_sell = "";
             }
             else
             {
@@ -164,12 +172,14 @@ export default{
             // it afresh just add the new instance to the
             // existing one.
         },
+        clearCart(){
+            this.items_on_cart.length = 0;
+        },
         async postSale(){
             this.action="submitting";
             this.post_sale=" ",
             this.loadSpinner();
             try{
-                console.log("are we getting here.")
                 const url = `${this.$api}sales/record`;
                 console.log(url)
                 const res = await fetch(url,{
@@ -182,16 +192,20 @@ export default{
                 })
                 const data = await res.json()
                 if (data.status === 201){
-                this.message = data.data
-                this.type = "success"
-                this.$emit('actionFeedback', this.message,this.type)
-                this.unloadSpinner();
+                    this.unloadSpinner();
+                    this.message = data.data;
+                    this.type = "success";
+                    this.$emit('actionFeedback', this.message,this.type);
+                    this.search_result.length = 0;
+                    this.items_on_cart.length = 0;
+                    await this.$store.dispatch('getItems');
+                    this.items = this.$store.getters.Items;
                 }
                 else{
-                this.message = data.error
-                this.type ="error"
-                this.unloadSpinner();
-                this.$emit('actionFeedback', this.message,this.type)
+                    this.unloadSpinner();
+                    this.message = data.error;
+                    this.type ="error";
+                    this.$emit('actionFeedback', this.message,this.type);
                 }
             }
             catch(err){
@@ -299,5 +313,10 @@ export default{
 .post-sale{
     width:30%;
     margin-top:10px;
+}
+.clear-cart{
+    width:30%;
+    background-color: #24292F;
+    float:right;
 }
 </style>
