@@ -78,8 +78,7 @@
         </button>
         <button 
         type="submit" 
-        class="submit clear-cart" 
-        :class="action" 
+        class="submit clear-cart"  
         @click="clearCart" 
         :disabled="disabled">Clear cart</button>
     </div>
