@@ -53,9 +53,9 @@ export default{
     ...mapGetters({ token:"AuthToken" }),
     userRole(){
         if(this.token){
-          const tokenParts = this.token.split('.')
-          const tokenBody = JSON.parse(atob(tokenParts[1]))
-          return tokenBody.role
+          const tokenParts = this.token.split('.');
+          const tokenBody = JSON.parse(atob(tokenParts[1]));
+          return tokenBody.role;
         }
     }
   }
