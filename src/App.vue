@@ -7,6 +7,7 @@ export default {
       try{
           this.$store.commit('SET_IS_LOGGED_IN',false)
           this.$store.commit('SET_AUTH_TOKEN',null)
+          this.$store.commit('RESET_ITEMS')
           this.$router.push({name:"Index"})
       }
       catch(err){
