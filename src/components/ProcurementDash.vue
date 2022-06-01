@@ -29,13 +29,15 @@
             <li><label class="li-label">Selling Price</label></li>
         </ul>
     </div>
-    <div class="items" v-for=" item in search_result" :key="item.item_sys_id" @click="item_to_update(item)">
-        <ul>
-            <li>{{ item.item }}</li>
-            <li>{{ item.units }}</li>
-            <li>{{ item.buying_price}}</li>
-            <li>{{ item.selling_price }}</li>
-        </ul>
+    <div class="results-overflow">
+        <div class="items" v-for=" item in search_result" :key="item.item_sys_id" @click="item_to_update(item)">
+            <ul>
+                <li>{{ item.item }}</li>
+                <li>{{ item.units }}</li>
+                <li>{{ item.buying_price}}</li>
+                <li>{{ item.selling_price }}</li>
+            </ul>
+        </div>
     </div>
     <ChangesModal v-bind="changesModalProps" :action="action" @clearSearchResult="clearTableAndUpdate"/>
 </div>
@@ -167,5 +169,10 @@ export default{
 }
 .no-border{
     border: none;
+}
+.results-overflow{
+    max-height:400px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 </style>
