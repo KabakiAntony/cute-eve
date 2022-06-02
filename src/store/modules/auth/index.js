@@ -32,7 +32,9 @@ const actions = {
             return data
         }
         catch(err){
-            let error = "Seems like you are offline kindly check your connection."
+            let error = `The server is offline or unreachable,
+                    give it a moment and try again, if the
+                    problem persists contact the admin.`
             return error
         }
       }
