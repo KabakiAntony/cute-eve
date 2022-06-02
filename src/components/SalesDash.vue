@@ -33,6 +33,7 @@
                 <input type="text" v-model="item_selling_price" disabled>
                 <label>Available Units</label>
                 <input type="text" id="available_units" v-model="item_units" disabled>
+                <p class="units-error" id="error_para">You can't sell more units than you have in stock</p>
                 <label>Units to sell</label>
                 <input type="number" id="units_to_sell" v-model="units_to_sell" min="0" step="0.01">
                 <button type="submit" class="submit btn-add">Add to cart</button>
@@ -162,7 +163,12 @@ export default{
             }
             else
             {
-                alert("You cannot sell more than you have in stock.")
+               const error_para = document.getElementById('error_para');
+               error_para.style.display = "block";
+
+                setTimeout(()=>{
+                error_para.style.display = "none";
+                }, 5000)
             }
 
             // this cart is not persistent if the user was to close
@@ -317,5 +323,14 @@ export default{
     width:30%;
     background-color: #24292F;
     float:right;
+}
+.units-error{
+  color:#b8251b;
+  display:none;
+  padding:2px;
+  border-radius:0.5em;
+  background-color: #f0a19c;
+  border: 1px solid rgb(231, 24, 9);
+  text-align: center;
 }
 </style>
