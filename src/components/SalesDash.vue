@@ -26,6 +26,7 @@
         </div>
         <div class="item-on-sale">
             <form  @submit.prevent="add_to_cart" class="add-to-cart-form">
+                <p class="units-error" id="error_para">You can't sell more units than you have in stock</p>
                 <input type="hidden" v-model="item_id">
                 <label>Item</label>
                 <input type="text" class="item-name" disabled v-model="item_name">
@@ -33,7 +34,6 @@
                 <input type="text" v-model="item_selling_price" disabled>
                 <label>Available Units</label>
                 <input type="text" id="available_units" v-model="item_units" disabled>
-                <p class="units-error" id="error_para">You can't sell more units than you have in stock</p>
                 <label>Units to sell</label>
                 <input type="number" id="units_to_sell" v-model="units_to_sell" min="0" step="0.01">
                 <button type="submit" class="submit btn-add">Add to cart</button>
@@ -325,12 +325,15 @@ export default{
     float:right;
 }
 .units-error{
-  color:#b8251b;
+  color:#24292F;
   display:none;
   padding:2px;
   border-radius:0.5em;
   background-color: #f0a19c;
-  border: 1px solid rgb(231, 24, 9);
+  border: 2px solid rgb(231, 24, 9);
   text-align: center;
+  width:50%;
+  margin:0 auto;
+  font-size:12px;
 }
 </style>
