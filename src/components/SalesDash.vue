@@ -332,8 +332,7 @@ export default{
   background-color: #f0a19c;
   border: 2px solid rgb(231, 24, 9);
   text-align: center;
-  width:50%;
-  margin:0 auto;
+  width:60%;
   font-size:12px;
 }
 </style>
