@@ -86,12 +86,24 @@
     </div>
 </div>
 <div class="actionContent" id="generateReports">
-    <p>generate reports</p>
+    <h3>Generate your sales report for the day</h3>
+    <p>You will only be able to generate your own report.</p>
+    <!-- <input type="text" v-model="screenName"> -->
+    <button type="submit" class="submit get-report" :class="action" @click="getReport()">
+                {{ get_report }}
+    </button>
 </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import Search from  "@/components/Search.vue"
-import { openAction, loadToast, loadSpinner, unloadSpinner, formatNumber } from "../utils"
+import { 
+    openAction, 
+    loadToast, 
+    loadSpinner, 
+    unloadSpinner, 
+    formatNumber, 
+    dailySalesReport } from "../utils"
 
 export default{
     name: "SalesDash",
@@ -112,6 +124,7 @@ export default{
             units_to_sell:null,
             post_sale:"Post sale",
             disabled:true,
+            get_report:"Get report",
         }
     },
     computed:{
@@ -121,7 +134,15 @@ export default{
                 cart_total +=item.total
             })
             return this.formatNumber(cart_total);
+        },
+        ...mapGetters({ token:"AuthToken" }),
+        screenName(){
+        if(this.token){
+            const tokenParts = this.token.split('.')
+            const tokenBody = JSON.parse(atob(tokenParts[1]))
+            return tokenBody.screen_name
         }
+    }
     },
     methods:{
         openAction,
@@ -129,6 +150,7 @@ export default{
         loadSpinner,
         unloadSpinner,
         formatNumber,
+        dailySalesReport,
         handleSearch(searchItem){
             const filter_result = this.items.filter((arr)=>{
             return arr.item.toLowerCase().includes(`${searchItem}`.toLowerCase())
@@ -186,7 +208,6 @@ export default{
             this.loadSpinner();
             try{
                 const url = `${this.$api}sales/record`;
-                console.log(url)
                 const res = await fetch(url,{
                 method:'POST',
                 headers:{
@@ -219,13 +240,53 @@ export default{
             }
             this.action = "";
             this.post_sale = "Post sale";
+        },
+        async getTodaysSales(){
+            try{
+                   const url = `${this.$api}sales`
+                    const res = await fetch(url,{
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'auth_token':this.$store.getters.AuthToken
+                    },
+                    })
+                    const data = await res.json()
+                    if (data.status === 200){
+                      this.message = "Report data fetched successfully, please wait for report to render."
+                      this.type = "success"
+                      this.$emit('actionFeedback', this.message,this.type)
+                      return data.data
+                    }
+                    else{
+                      this.message = data.error
+                      this.type ="error"
+                      this.$emit('actionFeedback', this.message,this.type)
+                    }
+                }
+                catch(err){
+                    let error = "The server is offline or unreachable."
+                    return error
+                }
+
+        },
+        async getReport(){
+            let body_data = await this.getTodaysSales();
+            let columns =  [
+              { header:'ITEM', dataKey: 'item' },
+              { header:'UNITS SOLD', dataKey: 'units_sold'},
+              { header:'UNIT PRICE', dataKey: 'unit_price'},
+              { header:'TOTAL', dataKey: 'total' },
+              ]
+            this.dailySalesReport(body_data, columns, this.screenName);
         }
+        
     },
     // lifecyclehooks
     async created(){
         await this.$store.dispatch('getItems')
         this.items = this.$store.getters.Items
-    },
+    }, 
 }
 
 </script>
@@ -334,5 +395,8 @@ export default{
   text-align: center;
   width:50%;
   font-size:12px;
+}
+.get-report{
+    width: 10%;
 }
 </style>
