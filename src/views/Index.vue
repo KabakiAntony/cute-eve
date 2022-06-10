@@ -56,16 +56,17 @@ export default{
             this.action="submitting"
             this.commonFormProps.submit_text =" "
             this.loadSpinner()
-              let data = await this.$store.dispatch('logIn',theForm)
-              if(data.status === 200){
+              let response = await this.$store.dispatch('logIn',theForm)
+              if(response.status === 200){
                 this.unloadSpinner()
-                this.loadToast(data.data.message, "success")
+                this.loadToast(response.data.message, "success")
                 setTimeout(()=>{
                 this.$router.push({name: 'Dashboard'})
                 },3000)
             } else {
               this.unloadSpinner()
-              this.loadToast(data, "error")
+              let error = response.error ? response.error : response;
+              this.loadToast(error, "error")
               }
             this.action = ""
             this.commonFormProps.submit_text = "Login"

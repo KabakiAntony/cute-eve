@@ -102,7 +102,7 @@ import {
     loadToast, 
     loadSpinner, 
     unloadSpinner, 
-    formatNumber, 
+    formatNumber,
     dailySalesReport } from "../utils"
 
 export default{
@@ -216,10 +216,10 @@ export default{
                 },
                 body: JSON.stringify(this.items_on_cart)
                 })
-                const data = await res.json()
-                if (data.status === 201){
+                const response = await res.json()
+                if (response.status === 201){
                     this.unloadSpinner();
-                    this.message = data.data;
+                    this.message = response.data;
                     this.type = "success";
                     this.$emit('actionFeedback', this.message,this.type);
                     this.search_result.length = 0;
@@ -229,7 +229,7 @@ export default{
                 }
                 else{
                     this.unloadSpinner();
-                    this.message = data.error;
+                    this.message = response.error;
                     this.type ="error";
                     this.$emit('actionFeedback', this.message,this.type);
                 }
@@ -251,15 +251,15 @@ export default{
                         'auth_token':this.$store.getters.AuthToken
                     },
                     })
-                    const data = await res.json()
-                    if (data.status === 200){
+                    const response = await res.json()
+                    if (response.status === 200){
                       this.message = "Report data fetched successfully, please wait for report to render."
                       this.type = "success"
                       this.$emit('actionFeedback', this.message,this.type)
-                      return data.data
+                      return response.data
                     }
                     else{
-                      this.message = data.error
+                      this.message = response.error
                       this.type ="error"
                       this.$emit('actionFeedback', this.message,this.type)
                     }

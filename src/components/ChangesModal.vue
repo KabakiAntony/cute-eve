@@ -27,7 +27,7 @@
         <label>Name</label>
         <input type="text" v-model="item_name">
         <label>Units Available</label>
-        <input type="number" v-model="item_units" min="0">
+        <input type="number" v-model="item_units" min="0" step="0.01">
         <label>Buying Price</label>
         <input type="number" v-model="item_buying_price" min="0" step="0.01">
         <label>Selling Price</label>
