@@ -59,16 +59,15 @@ export function openAction(evt, actionName){
   export function dailySalesReport(sales_data, column_data, screen_name){
   //work on a way of getting the sum of duplicate key value pairs
 
-
-    let total = sales_data.reduce((sum, el) => sum + el.total, 0);
-    let totals = [{content: `Total = ${total.toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
-
-    let new_data = [...sales_data.map(el => [
-      el.item.toUpperCase(), 
-      el.units_sold, 
-      el.unit_price, 
-      el.total.toLocaleString()]), totals]
-
+    if(sales_data){
+      let total = sales_data.reduce((sum, el) => sum + el.total, 0);
+      let totals = [{content: `Total = ${total.toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
+  
+      let new_data = [...sales_data.map(el => [
+        el.item.toUpperCase(), 
+        el.units_sold, 
+        el.unit_price, 
+        el.total.toLocaleString()]), totals]
   
     const addFooters = footer => {
       const pageCount = footer.internal.getNumberOfPages()
@@ -125,6 +124,7 @@ export function openAction(evt, actionName){
     });
     addFooters(doc)
     doc.save("Total sales for"+'_'+screen_name+'_'+generationDate+'.pdf')
+  }
   }
   export function salesPerPerson(sales_data, columns_data,name, start_date, end_date){
     // everything sold by a particular person
