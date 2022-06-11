@@ -88,7 +88,6 @@
 <div class="actionContent" id="generateReports">
     <h3>Generate your sales report for the day</h3>
     <p>You will only be able to generate your own report.</p>
-    <!-- <input type="text" v-model="screenName"> -->
     <button type="submit" class="submit get-report" :class="action" @click="getReport()">
                 {{ get_report }}
     </button>
@@ -242,6 +241,9 @@ export default{
             this.post_sale = "Post sale";
         },
         async getTodaysSales(){
+            this.action="submitting";
+            this.get_report=" ",
+            this.loadSpinner();
             try{
                    const url = `${this.$api}sales`
                     const res = await fetch(url,{
@@ -253,12 +255,14 @@ export default{
                     })
                     const response = await res.json()
                     if (response.status === 200){
+                        this.unloadSpinner();
                       this.message = "Report data fetched successfully, please wait for report to render."
                       this.type = "success"
                       this.$emit('actionFeedback', this.message,this.type)
                       return response.data
                     }
                     else{
+                        this.unloadSpinner();
                       this.message = response.error
                       this.type ="error"
                       this.$emit('actionFeedback', this.message,this.type)
@@ -268,10 +272,11 @@ export default{
                     let error = "The server is offline or unreachable."
                     return error
                 }
-
         },
         async getReport(){
             let body_data = await this.getTodaysSales();
+            this.action="";
+            this.get_report="Get report";
             let columns =  [
               { header:'ITEM', dataKey: 'item' },
               { header:'UNITS SOLD', dataKey: 'units_sold'},
