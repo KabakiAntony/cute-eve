@@ -1,4 +1,7 @@
 <template>
+<Transition name="toast">
+       <ShowAlert  v-if='show' :class='type' :message='message'/>
+    </Transition>
 <div class="actions">
     <button class="action-links" @click="openAction($event,'makeSale')">Sell</button>
     <button class="action-links" @click="openAction($event, 'generateReports')">Reports</button>
@@ -96,8 +99,9 @@
 <script>
 import { mapGetters } from "vuex";
 import Search from  "@/components/Search.vue"
+import ShowAlert from "@/components/ShowAlert.vue"
 import { 
-    openAction, 
+    openAction,
     loadToast, 
     loadSpinner, 
     unloadSpinner, 
@@ -106,12 +110,15 @@ import {
 
 export default{
     name: "SalesDash",
-    emits:['actionFeedback'],
     components: {
         Search,
+        ShowAlert,
     },
     data(){
         return{
+            type:null,
+            message:null,
+            show:false,
             action:null,
             items:[],
             search_result:[],
@@ -220,7 +227,7 @@ export default{
                     this.unloadSpinner();
                     this.message = response.data;
                     this.type = "success";
-                    this.$emit('actionFeedback', this.message,this.type);
+                    this.loadToast(this.message, this.type);
                     this.search_result.length = 0;
                     this.items_on_cart.length = 0;
                     await this.$store.dispatch('getItems');
@@ -230,7 +237,7 @@ export default{
                     this.unloadSpinner();
                     this.message = response.error;
                     this.type ="error";
-                    this.$emit('actionFeedback', this.message,this.type);
+                    this.loadToast(this.message, this.type);
                 }
             }
             catch(err){
