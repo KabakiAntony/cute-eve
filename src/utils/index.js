@@ -61,13 +61,13 @@ export function openAction(evt, actionName){
 
     if(sales_data){
       let total = sales_data.reduce((sum, el) => sum + el.total, 0);
-      let totals = [{content: `Total = ${total.toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
+      let totals = [{content: `Total = ${Number(total.toFixed(2)).toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
   
       let new_data = [...sales_data.map(el => [
         el.item, 
         el.units_sold, 
-        el.unit_price, //return to two decimal places
-        el.total.toLocaleString()]), totals]
+        el.unit_price.toFixed(2), //return to two decimal places
+        el.total.toFixed(2)]), totals]
   
     const addFooters = footer => {
       const pageCount = footer.internal.getNumberOfPages()
@@ -143,6 +143,7 @@ export function openAction(evt, actionName){
         el.units_sold, 
         el.unit_price.toFixed(2), 
         el.total.toFixed(2)]), totals]
+
   
     const addFooters = footer => {
       const pageCount = footer.internal.getNumberOfPages()
