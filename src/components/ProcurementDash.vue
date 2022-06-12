@@ -42,14 +42,36 @@
     <ChangesModal v-bind="changesModalProps" :action="action" @clearSearchResult="clearTableAndUpdate"/>
 </div>
 <div class="actionContent" id="generateReports">
-    <p>generate reports</p>
+    <h3>Generate various reports</h3>
+    <hr>
+    <div class="reports">
+        <h4>Stock available report</h4>
+        <p>Show a report of all stock</p>
+        <button :class="action" class="submit get-report" @click="get_stock_report">{{ get_stock_submit }}</button>
+    </div>
+    <hr>
+    <div class="reports">
+        <h4>Sales reports by date</h4>
+        <p>Show a sales report for a given duration, just enter the start and end date.</p>
+        <label>Start date</label>
+        <input type="date" class="get-report" v-model="start_date" required>
+        <label>End date</label>
+        <input type="date" class="get-report" v-model="end_date" required>
+        <button :class="action" class="submit get-report get-report-top" @click="generate_dated_sale_report">{{ dated_sales_submit }}</button>
+    </div>
 </div>
 </template>
 
 <script>
 import Search from  "@/components/Search.vue"
 import ChangesModal  from "@/components/ChangesModal.vue"
-import { openAction, loadToast, loadSpinner, unloadSpinner } from "../utils"
+import { 
+    openAction,
+    loadToast, 
+    loadSpinner, 
+    unloadSpinner, 
+    stockInShop,
+    salesReportByDate } from "../utils"
 
 export default{
     name: "ProcurementDash",
@@ -71,7 +93,11 @@ export default{
             update_stock_submit: "Modify",
             generate_report_submit: "Suspend",
             update_item_submit: "Save changes",
+            get_stock_submit: "Get stock report",
+            dated_sales_submit: "Get sales report",
             showChangesModal:false,
+            start_date:"",
+            end_date:"",
             action:null,
             items:[],
             search_result:[],
@@ -82,6 +108,8 @@ export default{
         loadToast,
         loadSpinner,
         unloadSpinner,
+        stockInShop,
+        salesReportByDate,
         async uploadStockFile(){
             this.action="submitting";
             this.loadSpinner();
@@ -138,6 +166,79 @@ export default{
             this.search_result.length = 0;
             await this.$store.dispatch('getItems');
             this.items = this.$store.getters.Items;
+        },
+        async get_stock_report(){
+            this.action="submitting";
+            this.get_stock_submit=" ",
+            this.loadSpinner();
+
+            // clear item list and reload
+            this.items.length = 0;
+            await this.$store.dispatch('getItems');
+            this.items = this.$store.getters.Items;
+
+            // generate report here
+            let columns =  [
+              { header:'ITEM', dataKey: 'item' },
+              { header:'UNITS', dataKey: 'units'},
+              { header:'UNIT PRICE', dataKey: 'buying_price'},
+              { header:'COST', dataKey: 'cost' },
+              ]
+
+            // get the cost of each unit and return a new array
+            this.stockInShop(this.items, columns);
+            
+            this.action="";
+            this.get_stock_submit="Get stock report";
+            this.unloadSpinner();
+        },
+        async get_dated_sales(){
+            this.action="submitting";
+            this.dated_sales_submit=" ",
+            this.loadSpinner();
+            try{
+                    const url = `${this.$api}sales/${this.start_date}/${this.end_date}`
+                    const res = await fetch(url,{
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'auth_token':this.$store.getters.AuthToken
+                    },
+                    })
+                    const response = await res.json()
+                    if (response.status === 200){
+                        this.unloadSpinner();
+                        this.message = "Report data fetched successful, wait for report to render.";
+                        this.type = "success";
+                        this.$emit('actionFeedback', this.message,this.type);
+                        return response.data;
+                    }
+                    else{
+                        this.unloadSpinner();
+                        this.message = response.error
+                        this.type ="error"
+                        this.$emit('actionFeedback', this.message,this.type)
+                        this.action=" ";
+                        this.dated_sales_submit="Get sales report";
+                    }
+                }
+                catch(err){
+                    let error = "The server is offline or unreachable."
+                    return err
+                }
+        },
+        async generate_dated_sale_report(){
+            let sales_data = await  this.get_dated_sales();
+            this.action=" ";
+            this.dated_sales_submit="Get sales report";
+
+            let columns =  [
+              { header:'ITEM', dataKey: 'item' },
+              { header:'UNITS SOLD', dataKey: 'units_sold'},
+              { header:'UNIT PRICE', dataKey: 'unit_price'},
+              { header:'TOTAL', dataKey: 'total' },
+              ]
+            this.salesReportByDate(sales_data, columns, this.start_date, this.end_date);
         }
         // other methods come here
     },
@@ -174,5 +275,15 @@ export default{
     max-height:400px;
     overflow-x: hidden;
     overflow-y: auto;
+}
+.get-report{
+    width:20%;
+    display: block;
+}
+.reports{
+    padding:10px;
+}
+.get-report-top{
+    margin-top:20px;
 }
 </style>
