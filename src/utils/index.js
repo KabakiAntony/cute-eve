@@ -61,13 +61,13 @@ export function openAction(evt, actionName){
 
     if(sales_data){
       let total = sales_data.reduce((sum, el) => sum + el.total, 0);
-      let totals = [{content: `Total = ${total.toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
+      let totals = [{content: `Total = ${Number(total.toFixed(2)).toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
   
       let new_data = [...sales_data.map(el => [
-        el.item.toUpperCase(), 
+        el.item, 
         el.units_sold, 
-        el.unit_price, 
-        el.total.toLocaleString()]), totals]
+        el.unit_price.toFixed(2), //return to two decimal places
+        el.total.toFixed(2)]), totals]
   
     const addFooters = footer => {
       const pageCount = footer.internal.getNumberOfPages()
@@ -92,15 +92,15 @@ export function openAction(evt, actionName){
       let rows = data.table.body;
       if (rows.length === 1) {
       } else if (data.row.index === rows.length - 1) {
-        doc.setFont('courier', 'bold');
+        doc.setFont('Helvetica', 'bold');
         doc.setFontSize("12");
         doc.setTextColor(52,147,223);
         doc.setFillColor(255, 255, 255);
       }
     };
    
-    const company = "CUTE EVE LIMITED";
-    const reportHeading = generationDate +"  sales for  " + screen_name.toUpperCase();
+    const company = `CUTE EVE LIMITED`;
+    const reportHeading = `Sales for ${generationDate} by  ${screen_name.toUpperCase()}`;
 
   
     let doc = new jsPDF()
@@ -109,8 +109,8 @@ export function openAction(evt, actionName){
       body: new_data,
       columns: column_data,
       margin: { top:30, horizontal: 10 },
-      headStyles: {fillColor: [0,150,214], fontStyle: 'bold'},
-      bodyStyles: {fontSize:8,font:'courier',fontStyle:'bold'},
+      headStyles: {fillColor: [0,150,214], font:'helvetica', fontStyle: 'bold'},
+      bodyStyles: {fontSize:8,font:'helvetica',fontStyle:'bold'},
       theme: "grid",
       showHead: "everyPage",
       willDrawCell: drawCell,
@@ -118,12 +118,12 @@ export function openAction(evt, actionName){
       didDrawPage: function (data) {
       //Document Header
       doc.setFontSize(10);
-      doc.setFont('courier', 'bold')
+      doc.setFont('Helvetica', 'bold')
       doc.text([String(company), String(reportHeading)],10,10)
       }
     });
     addFooters(doc)
-    doc.save("Total sales for"+'_'+screen_name+'_'+generationDate+'.pdf')
+    doc.save(`Total sales for ${screen_name} report generated on ${generationDate}.pdf`)
   }
   }
   export function salesPerPerson(sales_data, columns_data,name, start_date, end_date){
@@ -132,13 +132,148 @@ export function openAction(evt, actionName){
   }
 
   export function salesReportByDate(sales_data,columns_data,start_date, end_date){
-    // generate all sales by date
-    // so basically it will show sales between two different
-    // dates
+    //work on a way of getting the sum of duplicate key value pairs
+
+    if(sales_data){
+      let sales_total = sales_data.reduce((sum, el) => sum + el.total, 0);
+      let totals = [{content: `Total = ${Number(sales_total.toFixed(2)).toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
+  
+      let new_data = [...sales_data.map(el => [
+        el.item, 
+        el.units_sold, 
+        el.unit_price.toFixed(2), 
+        el.total.toFixed(2)]), totals]
+
+  
+    const addFooters = footer => {
+      const pageCount = footer.internal.getNumberOfPages()
+      footer.setFontSize(8)
+      for (var i = 1; i <= pageCount; i++) {
+        footer.setPage(i)
+        footer.text('Page ' + String(i) + 
+        ' of ' + String(pageCount),
+         footer.internal.pageSize.width / 2, 287, {
+          align: 'center'
+        })
+      }
+    }
+    const generationDate = new Date().toLocaleDateString('en-GB', {  
+      day:   'numeric',
+      month: 'short',
+      year:  'numeric',
+    });
+  
+    const drawCell = function(data) {
+      let doc = data.doc;
+      let rows = data.table.body;
+      if (rows.length === 1) {
+      } else if (data.row.index === rows.length - 1) {
+        doc.setFont('Helvetica', 'bold');
+        doc.setFontSize("12");
+        doc.setTextColor(52,147,223);
+        doc.setFillColor(255, 255, 255);
+      }
+    };
+   
+    const company = "CUTE EVE LIMITED";
+    const reportHeading = `Report for sales between the dates of ${start_date} and ${end_date}`;
+
+  
+    let doc = new jsPDF()
+    
+    autoTable(doc, {
+      body: new_data,
+      columns: columns_data,
+      margin: { top:30, horizontal: 10 },
+      headStyles: {fillColor: [0,150,214], font:'helvetica', fontStyle: 'bold'},
+      bodyStyles: {fontSize:8,font:'helvetica',fontStyle:'bold'},
+      theme: "grid",
+      showHead: "everyPage",
+      willDrawCell: drawCell,
+      
+      didDrawPage: function (data) {
+      //Document Header
+      doc.setFontSize(10);
+      doc.setFont('Helvetica', 'bold')
+      doc.text([String(company), String(reportHeading)],10,10)
+      }
+    });
+    addFooters(doc)
+    doc.save(`Report for sales between the dates of ${start_date} and ${end_date} report generated on ${generationDate}.pdf`)
+  }
   }
 
   export function stockInShop(stock_data,columns_data){
-    // this should show all stock in shop and the total value
+    if(stock_data){
+    let total = stock_data.reduce((sum, el) => sum + (el.units*el.buying_price), 0);
+    let formatted_number = formatNumber(total.toFixed(2))// return a two decimal place answer
+    let totals = [{content: `Value = ${formatted_number}`, colSpan: 4, styles:{halign:'center'}}]
+
+    let new_data = [...stock_data.map((el) => [
+      el.item, 
+      el.units,
+      el.buying_price.toFixed(2),
+      (el.units*el.buying_price).toFixed(2)
+    ]), totals]
+
+  
+    const addFooters = footer => {
+      const pageCount = footer.internal.getNumberOfPages()
+      footer.setFontSize(8)
+      for (var i = 1; i <= pageCount; i++) {
+        footer.setPage(i)
+        footer.text('Page ' + String(i) + 
+        ' of ' + String(pageCount),
+         footer.internal.pageSize.width / 2, 287, {
+          align: 'center'
+        })
+      }
+    }
+    const generationDate = new Date().toLocaleDateString('en-GB', {  
+      day:   'numeric',
+      month: 'short',
+      year:  'numeric',
+    });
+  
+    const drawCell = function(data) {
+      let doc = data.doc;
+      let rows = data.table.body;
+      if (rows.length === 1) {
+      } else if (data.row.index === rows.length - 1) {
+        doc.setFont('Helvetica', 'bold');
+        doc.setFontSize("12");
+        doc.setTextColor(52,147,223);
+        doc.setFillColor(255, 255, 255);
+      }
+    };
+   
+    const company = "CUTE EVE LIMITED";
+    const reportHeading = `Stock in the shop as at ${generationDate}`;
+
+  
+    let doc = new jsPDF()
+    // console.log(doc.getFontList());
+
+    autoTable(doc, {
+      body: new_data,
+      columns: columns_data,
+      margin: { top:30, horizontal: 10 },
+      headStyles: {fillColor: [0,150,214], fontStyle: 'bold'},
+      bodyStyles: {fontSize:8,font:'helvetica',fontStyle:'bold'},
+      theme: "grid",
+      showHead: "everyPage",
+      willDrawCell: drawCell,
+      
+      didDrawPage: function (data) {
+      //Document Header
+      doc.setFontSize(10);
+      doc.setFont('Helvetica', 'bold')
+      doc.text([String(company), String(reportHeading)],10,10)
+      }
+    });
+    addFooters(doc)
+    doc.save(`Stock in the shop as at ${generationDate}.pdf`);
+  }
   }
 
   export function depletedStock(stock_data,columns_data){

@@ -1,4 +1,7 @@
 <template>
+<Transition name="toast">
+       <ShowAlert  v-if='show' :class='type' :message='message'/>
+    </Transition>
 <div class="actions">
     <button class="action-links" @click="openAction($event,'makeSale')">Sell</button>
     <button class="action-links" @click="openAction($event, 'generateReports')">Reports</button>
@@ -88,7 +91,6 @@
 <div class="actionContent" id="generateReports">
     <h3>Generate your sales report for the day</h3>
     <p>You will only be able to generate your own report.</p>
-    <!-- <input type="text" v-model="screenName"> -->
     <button type="submit" class="submit get-report" :class="action" @click="getReport()">
                 {{ get_report }}
     </button>
@@ -97,8 +99,9 @@
 <script>
 import { mapGetters } from "vuex";
 import Search from  "@/components/Search.vue"
+import ShowAlert from "@/components/ShowAlert.vue"
 import { 
-    openAction, 
+    openAction,
     loadToast, 
     loadSpinner, 
     unloadSpinner, 
@@ -107,12 +110,15 @@ import {
 
 export default{
     name: "SalesDash",
-    emits:['actionFeedback'],
     components: {
         Search,
+        ShowAlert,
     },
     data(){
         return{
+            type:null,
+            message:null,
+            show:false,
             action:null,
             items:[],
             search_result:[],
@@ -221,7 +227,7 @@ export default{
                     this.unloadSpinner();
                     this.message = response.data;
                     this.type = "success";
-                    this.$emit('actionFeedback', this.message,this.type);
+                    this.loadToast(this.message, this.type);
                     this.search_result.length = 0;
                     this.items_on_cart.length = 0;
                     await this.$store.dispatch('getItems');
@@ -231,7 +237,7 @@ export default{
                     this.unloadSpinner();
                     this.message = response.error;
                     this.type ="error";
-                    this.$emit('actionFeedback', this.message,this.type);
+                    this.loadToast(this.message, this.type);
                 }
             }
             catch(err){
@@ -242,6 +248,9 @@ export default{
             this.post_sale = "Post sale";
         },
         async getTodaysSales(){
+            this.action="submitting";
+            this.get_report=" ",
+            this.loadSpinner();
             try{
                    const url = `${this.$api}sales`
                     const res = await fetch(url,{
@@ -253,12 +262,14 @@ export default{
                     })
                     const response = await res.json()
                     if (response.status === 200){
+                        this.unloadSpinner();
                       this.message = "Report data fetched successfully, please wait for report to render."
                       this.type = "success"
                       this.$emit('actionFeedback', this.message,this.type)
                       return response.data
                     }
                     else{
+                        this.unloadSpinner();
                       this.message = response.error
                       this.type ="error"
                       this.$emit('actionFeedback', this.message,this.type)
@@ -268,10 +279,11 @@ export default{
                     let error = "The server is offline or unreachable."
                     return error
                 }
-
         },
         async getReport(){
             let body_data = await this.getTodaysSales();
+            this.action="";
+            this.get_report="Get report";
             let columns =  [
               { header:'ITEM', dataKey: 'item' },
               { header:'UNITS SOLD', dataKey: 'units_sold'},

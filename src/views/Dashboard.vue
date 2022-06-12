@@ -8,7 +8,7 @@
         <ProcurementDash @actionFeedback="actionNotification"/>
     </div>
     <div v-if="userRole === 'sales'">
-      <SalesDash @actionFeedback="actionNotification"/>
+      <SalesDash />
     </div>
     <h4 class="text-center bigger-font" id="profileInstruction">Click on any option to carry out the task.</h4> 
 </template>
