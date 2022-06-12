@@ -135,14 +135,14 @@ export function openAction(evt, actionName){
     //work on a way of getting the sum of duplicate key value pairs
 
     if(sales_data){
-      let total = sales_data.reduce((sum, el) => sum + el.total, 0);
-      let totals = [{content: `Total = ${total.toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
+      let sales_total = sales_data.reduce((sum, el) => sum + el.total, 0);
+      let totals = [{content: `Total = ${Number(sales_total.toFixed(2)).toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
   
       let new_data = [...sales_data.map(el => [
         el.item, 
         el.units_sold, 
-        el.unit_price, //return to two decimal places
-        el.total.toLocaleString()]), totals]
+        el.unit_price.toFixed(2), 
+        el.total.toFixed(2)]), totals]
   
     const addFooters = footer => {
       const pageCount = footer.internal.getNumberOfPages()
@@ -205,14 +205,14 @@ export function openAction(evt, actionName){
   export function stockInShop(stock_data,columns_data){
     if(stock_data){
     let total = stock_data.reduce((sum, el) => sum + (el.units*el.buying_price), 0);
-    let formatted_number = formatNumber(total)
+    let formatted_number = formatNumber(total.toFixed(2))// return a two decimal place answer
     let totals = [{content: `Value = ${formatted_number}`, colSpan: 4, styles:{halign:'center'}}]
 
     let new_data = [...stock_data.map((el) => [
       el.item, 
-      el.units, 
-      el.buying_price, 
-      el.units*el.buying_price
+      el.units,
+      el.buying_price.toFixed(2),
+      (el.units*el.buying_price).toFixed(2)
     ]), totals]
 
   
