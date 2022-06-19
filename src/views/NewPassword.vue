@@ -1,14 +1,14 @@
 <template>
- <div class="page">
+ <main>
    <Spinner />
     <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
-    <h1>Set a new password to regain access to your account.</h1>
+    <h4 class="center-text view-port-margin">Set a new password to regain access to your account.</h4>
     <div class="holder">
       <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
       <div id="form-container">
-        <h2 class="form-header">Update your password</h2>
+        <h4 class="form-header">Update your password</h4>
         <form @submit.prevent="handleSubmit">
             <p class="password-error" id="pass-error">Passwords do not match.</p>
             <label>Password</label>
@@ -23,7 +23,7 @@
         </form>
     </div>
     </div>
- </div>
+ </main>
 </template>
 
 <script>

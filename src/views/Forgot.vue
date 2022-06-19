@@ -1,16 +1,16 @@
 <template>
-<div class="page">
+<main>
   <Spinner />
      <Transition name="toast">
       <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
-    <h1>Forgot your password ?</h1>
-    <p>We got you, just enter your email below and we will send you a link to update your password shortly.</p>
+    <h4 class="center-text view-port-margin">Forgot your password ?</h4>
+    <p class="center-text view-port-margin">We got you, just enter your email below and we will send you a link to update your password shortly.</p>
     <div class="holder">
       <img alt="forgot password" class="side-img" src="../assets/cute_eve_forgot.svg">
       <ForgotForm  v-bind="forgotFormProps" @on_submit="handleSubmit" :action="action" />
     </div>
-</div>
+</main>
 </template>
 
 <script>

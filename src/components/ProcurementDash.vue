@@ -2,16 +2,16 @@
 <div class="actions">
     <button class="action-links" @click="openAction($event,'newStock')">New Stock</button>
     <button class="action-links" @click="openAction($event, 'updateStock')">Update Stock</button>
-    <button class="action-links" @click="openAction($event, 'generateReports')">Generate Reports</button>
+    <button class="action-links" @click="openAction($event, 'generateReports')">Reports</button>
 </div>
 <div class="actionContent" id="newStock">
     <h3>Upload new stock file</h3>
     <p><span>New stock is stock that did not exist before and now your are introducing it.</span></p>
     <hr>
-  <form @submit.prevent="uploadStockFile" class="dashboard">
+  <form @submit.prevent="uploadStockFile" class="remove-padding">
     <label>New stock file</label>
     <input type="file"  class="file" id="newItemFile" accept=".xlsx, .xls" required/>
-    <button :class="action" class="submit list-left">{{ new_stock_submit }}</button>
+    <button :class="action" class="submit dashboard-submit">{{ new_stock_submit }}</button>
     </form>
 </div>
 <div class="actionContent" id="updateStock">
@@ -22,20 +22,28 @@
     <Search @on_click_search="handleSearch"/>
     <hr>
     <div class="items-list">
-        <ul>
+        <ul class="larger-screens">
             <li><label class="li-label">Item</label></li>
             <li><label class="li-label">Units Available</label></li>
             <li><label class="li-label">Buying Price</label></li>
             <li><label class="li-label">Selling Price</label></li>
         </ul>
+        <ul class="smaller-screens">
+            <li><label class="li-label">Item</label></li>
+            <li><label class="li-label">Units Available</label></li>
+        </ul>
     </div>
     <div class="results-overflow">
         <div class="items" v-for=" item in search_result" :key="item.item_sys_id" @click="item_to_update(item)">
-            <ul>
+            <ul class="larger-screens">
                 <li>{{ item.item }}</li>
                 <li>{{ item.units }}</li>
                 <li>{{ item.buying_price}}</li>
                 <li>{{ item.selling_price }}</li>
+            </ul>
+            <ul class="smaller-screens">
+                <li>{{ item.item }}</li>
+                <li>{{ item.units }}</li>
             </ul>
         </div>
     </div>
@@ -44,20 +52,20 @@
 <div class="actionContent" id="generateReports">
     <h3>Generate various reports</h3>
     <hr>
-    <div class="reports">
+    <div class="dash">
         <h4>Stock available report</h4>
         <p>Show a report of all stock</p>
-        <button :class="action" class="submit get-report" @click="get_stock_report">{{ get_stock_submit }}</button>
+        <button :class="action" class="submit dashboard-submit" @click="get_stock_report">{{ get_stock_submit }}</button>
     </div>
     <hr>
-    <div class="reports">
+    <div class="dash">
         <h4>Sales reports by date</h4>
         <p>Show a sales report for a given duration, just enter the start and end date.</p>
         <label>Start date</label>
-        <input type="date" class="get-report" v-model="start_date" required>
+        <input type="date"  v-model="start_date" required>
         <label>End date</label>
-        <input type="date" class="get-report" v-model="end_date" required>
-        <button :class="action" class="submit get-report get-report-top" @click="generate_dated_sale_report">{{ dated_sales_submit }}</button>
+        <input type="date" v-model="end_date" required>
+        <button :class="action" class="submit dashboard-submit" @click="generate_dated_sale_report">{{ dated_sales_submit }}</button>
     </div>
 </div>
 </template>
@@ -254,36 +262,3 @@ export default{
     }
 }
 </script>
-<style>
-.items{
-    overflow: hidden;
-    background-color:#DBDBDB;
-    font-weight: bold;
-    border-bottom:1px solid #000000;
-}
-.items li{
-  width: 25%;
-}
-.items:hover{
-    background-color:#3c9b3c;
-    color:#ffffff;
-}
-.no-border{
-    border: none;
-}
-.results-overflow{
-    max-height:400px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-.get-report{
-    width:20%;
-    display: block;
-}
-.reports{
-    padding:10px;
-}
-.get-report-top{
-    margin-top:20px;
-}
-</style>

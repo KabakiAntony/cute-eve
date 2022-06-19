@@ -1,14 +1,14 @@
 <template>
-<div class="page">
+<main>
   <Spinner />
       <Transition name="toast">
         <ShowAlert  v-if='show' :class='type' :message='message'/>
       </Transition>
-      <h1>Create a password to activate and use your account.</h1>
+      <h4 class="center-text view-port-margin">Create a password to activate and use your account.</h4>
       <div class="holder">
         <img alt="forgot password" class="side-img" src="../assets/cute_eve_update_password.svg">
         <div id="form-container">
-        <h2 class="form-header">Create a password</h2>
+        <h4 class="form-header">Create a password</h4>
         <form @submit.prevent="handleSubmit">
             <p class="password-error" id="pass-error">Passwords do not match.</p>
             <label>Password</label>
@@ -23,7 +23,7 @@
         </form>
     </div>
   </div>
-</div>
+</main>
 
 </template>
 
@@ -116,12 +116,10 @@ export default {
 </script>
 <style>
 .password-error{
-  color:#b8251b;
   display:none;
   padding:2px;
-  border-radius:0.5em;
   background-color: #f0a19c;
-  border: 2px solid rgb(231, 24, 9);
+  border: 1px solid rgb(231, 24, 9);
   text-align: center;
 }
 </style>

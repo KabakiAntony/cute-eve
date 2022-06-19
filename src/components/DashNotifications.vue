@@ -22,12 +22,9 @@ export default {
     display:none;
 }
 #dashboard_notification{
-  margin: 20px auto;
   color:black;
   text-align: left;
-  border-radius: 0.3rem;
   padding: 0.3rem;
   font-size:100%;
-  width:90%;
 }
 </style>
