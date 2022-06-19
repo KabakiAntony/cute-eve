@@ -1,22 +1,23 @@
 <template>
-<div class="page">
+<main>
   <Spinner />
      <Transition name="toast">
        <ShowAlert  v-if='show' :class='type' :message='message'/>
     </Transition>
+    <h4 class="center-text view-port-margin">Welcome, login to use the system.</h4>
     <div class="holder">
-        <h1 class="index-h1">Welcome, login to use the system.</h1>
         <img
             alt="landing page image"
             class="side-img"
             src="../assets/cute_eve_login.svg"
         />
-    <CommonForm  
+        <CommonForm  
       v-bind="commonFormProps" 
       @on_submit="handleSubmit" 
       :action="action"/>
     </div>
-</div>
+    
+</main>
 </template>
 
 <script>
@@ -75,6 +76,3 @@ export default{
   },
 }
 </script>
-
-<style>
-</style>

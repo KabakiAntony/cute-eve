@@ -3,26 +3,34 @@
         <div class="modal">
         <div class="close"  @click.self="closeModal">+</div>
         <div class="item-to-update">
-            <h3 class="text-center">Update the item below</h3>
+            <h4 class="text-center">Update the item below</h4>
             <div class="items-list">
-            <ul>
+            <ul class="larger-screens">
                 <li><label class="li-label">Item</label></li>
                 <li><label class="li-label">Units Available</label></li>
                 <li><label class="li-label">Buying Price</label></li>
                 <li><label class="li-label">Selling Price</label></li>
             </ul>
+            <ul class="smaller-screens">
+            <li><label class="li-label">Item</label></li>
+            <li><label class="li-label">Available</label></li>
+            </ul>
         </div>
         <div class="items no-border">
-            <ul>
+            <ul class="larger-screens">
                 <li>{{ item_name }}</li>
                 <li>{{ item_units }}</li>
                 <li>{{ item_buying_price}}</li>
                 <li>{{ item_selling_price }}</li>
             </ul>
+            <ul class="smaller-screens">
+                <li>{{ item_name }}</li>
+                <li>{{ item_units }}</li>
+            </ul>
         </div>
         <hr>
         <DashNotifications v-if='show' :class='type' :message='message'/>
-        <form  @submit.prevent="updateItem" class="dashboard update-form">
+        <form  @submit.prevent="updateItem" class="dash">
         <input type="hidden" v-model="item_id">
         <label>Name</label>
         <input type="text" v-model="item_name">
@@ -32,9 +40,9 @@
         <input type="number" v-model="item_buying_price" min="0" step="0.01">
         <label>Selling Price</label>
         <input type="number" v-model="item_selling_price" min="0" step="0.01">
-        <button :class="action" class="submit list-left">{{ update_item_submit }}</button>
+        <button :class="action" class="submit dashboard-submit">{{ update_item_submit }}</button>
         </form>
-        <p class="text-center"><span>Make sure you save your changes to the database</span></p>
+        <p class="center-text"><span>Make sure you save your changes to the database</span></p>
     </div>
     </div>
     </div>
@@ -117,10 +125,9 @@ export default {
 
 <style>
 .modal{
-    width:80%;
-    margin: 0px auto;
+    width:90%;
+    margin: 10px auto;
     background-color: #dbdbdb;
-    border-radius: 10px;
     padding:2px 10px;
 }
 .backdrop{

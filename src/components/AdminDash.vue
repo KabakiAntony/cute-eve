@@ -8,48 +8,42 @@
     <h3>Create system user here</h3>
     <p>Easy just fill the simple form below, on success a user will recieve an email with further instructions.</p>
     <hr>
-    <form  @submit.prevent="createUser" class="dashboard">
-        <div class="select-block">
+    <form  @submit.prevent="createUser" class="dash">
         <label >Select role </label>
         <select  v-model="role" required>
         <option value="admin">Admin</option>
         <option value="procurement">Procurement</option>
         <option value="sales">Sales</option>
         </select>
-        </div>
         <label >Email </label>
         <input  type="email" v-model="email" required>
-        <button :class="action" class="submit list-left">{{ create_user_submit }}</button>
+        <button :class="action" class="submit dashboard-submit">{{ create_user_submit }}</button>
         </form>
 </div>
 <div class="actionContent" id="suspendUser">
     <h3>Suspend system user here</h3>
     <p>Just enter the email of the user you want to suspend.</p>
     <hr>
-    <form  @submit.prevent="suspendUser" class="dashboard">
-        <div class="select-block">
-        </div>
+    <form  @submit.prevent="suspendUser" class="dash">
         <label >Email </label>
         <input  type="email" v-model="email" required>
-        <button :class="action" class="submit list-left">{{ suspend_user_submit }}</button>
+        <button :class="action" class="submit dashboard-submit">{{ suspend_user_submit }}</button>
         </form>
 </div>
 <div class="actionContent" id="modifyRole">
     <h3>Change the role of a user here.</h3>
     <p>Select the new role you want to give a user, enter their email and click update role.</p>
     <hr>
-    <form  @submit.prevent="modifyRole" class="dashboard">
-        <div class="select-block">
+    <form  @submit.prevent="modifyRole" class="dash">
         <label >Select role </label>
         <select  v-model="role" required>
         <option value="admin">Admin</option>
         <option value="procurement">Procurement</option>
         <option value="sales">Sales</option>
         </select>
-        </div>
         <label >Email </label>
         <input  type="email" v-model="email" required>
-        <button :class="action" class="submit list-left">{{ modify_user_submit }}</button>
+        <button :class="action" class="submit dashboard-submit">{{ modify_user_submit }}</button>
         </form>
 </div>
 </template>
@@ -125,4 +119,3 @@ export default{
     }
 }
 </script>
-<style></style>

@@ -1,6 +1,6 @@
 <template>
     <div id="form-container">
-        <h2 class="form-header">{{ header_text }}</h2>
+        <h4 class="form-header">{{ header_text }}</h4>
         <form @submit.prevent="$emit('on_submit', form)">
             <label>Email</label>
             <input type="email" v-model="form.email"  required>

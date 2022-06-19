@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="item-on-sale">
-            <form  @submit.prevent="add_to_cart" class="add-to-cart-form">
+            <form  @submit.prevent="add_to_cart" class="add-to-cart-form dash">
                 <input type="hidden" v-model="item_id">
                 <label>Item</label>
                 <input type="text" class="item-name" disabled v-model="item_name">
@@ -71,7 +71,7 @@
             <li>{{ cartTotal }}</li>
         </ul>
     </div>
-    <div class="post-sale">
+    <div class="sale">
         <button 
         type="submit" 
         class="submit post-sale" 
@@ -91,7 +91,7 @@
 <div class="actionContent" id="generateReports">
     <h3>Generate your sales report for the day</h3>
     <p>You will only be able to generate your own report.</p>
-    <button type="submit" class="submit get-report" :class="action" @click="getReport()">
+    <button type="submit" class="submit dashboard-submit" :class="action" @click="getReport()">
                 {{ get_report }}
     </button>
 </div>
@@ -110,6 +110,7 @@ import {
 
 export default{
     name: "SalesDash",
+    emits:['actionFeedback'],
     components: {
         Search,
         ShowAlert,
@@ -139,7 +140,7 @@ export default{
             this.items_on_cart.forEach((item) =>{
                 cart_total +=item.total
             })
-            return this.formatNumber(cart_total);
+            return this.formatNumber(Number(cart_total.toFixed(2)));
         },
         ...mapGetters({ token:"AuthToken" }),
         screenName(){
@@ -263,16 +264,16 @@ export default{
                     const response = await res.json()
                     if (response.status === 200){
                         this.unloadSpinner();
-                      this.message = "Report data fetched successfully, please wait for report to render."
-                      this.type = "success"
-                      this.$emit('actionFeedback', this.message,this.type)
+                        this.message = "Report data fetched successfully, please wait for report to render."
+                        this.type = "success"
+                        this.$emit('actionFeedback', this.message,this.type)
                       return response.data
                     }
                     else{
                         this.unloadSpinner();
-                      this.message = response.error
-                      this.type ="error"
-                      this.$emit('actionFeedback', this.message,this.type)
+                        this.message = response.error
+                        this.type ="error"
+                        this.loadToast(this.message, this.type);
                     }
                 }
                 catch(err){
@@ -309,7 +310,6 @@ export default{
 .search-item-display{
     width:100%;
     margin:20px auto;
-    display: flex;
     flex-wrap: wrap;
 }
 .cart{
@@ -328,13 +328,10 @@ export default{
 }
 .cart-heading li{
     width:25%;
+    float:left;
 }
-.total{
-    overflow: hidden;
-    background-color:#ffffff;
-    font-weight: bold;
-    font-size:x-large;
-    color:#008cff;
+.total li{
+    float:left;
 }
 .color{
     /* this is a hack*/
@@ -345,6 +342,7 @@ export default{
 }
 .search-result-list li{
   width:50%;
+  float:left;
 }
 .possible-item{
     height: 300px;
@@ -357,40 +355,25 @@ export default{
     border-bottom:1px solid #000000;
 }
 .item li{
+    font-size: small;
   width: 50%;
+  float:left;
 }
 .cart-items li{
     width:25%;
+    float:left;
 }
 .item:hover, .cart-items:hover{
     background-color:#3c9b3c;
     color:#ffffff;
 }
-.item-on-sale .item-name{
-    width: 65%;
-}
-.add-to-cart-form{
-    padding:0%;
-    padding-left:5%;
-}
-.add-to-cart-form .submit{
-    width:50%;
-    margin-top:20px;
-}
-.add-to-cart-form input{
-    width:50%;
-    display:block;
-    padding:5px;
-    color:#000000;
-}
-.cart-holder{
-    max-height:400px;
-    overflow-x: hidden;
-    overflow-y: auto;
+.sale{
+    width:100%;
+    margin-top:10px;
 }
 .post-sale{
     width:30%;
-    margin-top:10px;
+    margin-right:5%;
 }
 .clear-cart{
     width:30%;
@@ -407,8 +390,5 @@ export default{
   text-align: center;
   width:50%;
   font-size:12px;
-}
-.get-report{
-    width: 10%;
 }
 </style>

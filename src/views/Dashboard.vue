@@ -1,4 +1,5 @@
 <template>
+  <main>
     <Spinner/>
     <DashNotifications v-if='show' :class='type' :message='message'/>
     <div v-if="userRole === 'admin'">
@@ -10,7 +11,8 @@
     <div v-if="userRole === 'sales'">
       <SalesDash />
     </div>
-    <h4 class="text-center bigger-font" id="profileInstruction">Click on any option to carry out the task.</h4> 
+    <h4 class="center-text" id="profileInstruction">Click on any option to carry out the task.</h4> 
+  </main>
 </template>
 
 <script>
@@ -63,19 +65,6 @@ export default{
 
 </script>
 <style>
-.dashboard .submit{
-    width:20%;
-    margin-top:20px;
-    margin-bottom: 20px;
-    margin-left:15%;
-}
-.dashboard input{
-    width:50%;
-    display:block;
-}
-.dashboard .list-left{
-  margin-left: 0%;
-}
 label {
   padding-right:2%;
   color:#24292F;
@@ -87,19 +76,5 @@ label {
 }
 .update-form .submit{
   width:50%;
-}
-/* item list headings */
-.items-list{
-  margin-top:0.3em;
-  overflow: hidden;
-  background-color:#3493DF;
-  text-transform: uppercase;
-}
-.items-list li{
-  width:25%;
-}
-.li-label{
-  color:#ffffff;
-  text-transform: capitalize;
 }
 </style>

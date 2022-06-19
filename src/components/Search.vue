@@ -18,18 +18,3 @@ export default{
     }
 }
 </script>
-<style scoped>
-#search-area {
-    width:50%;
-    height: 37px;
-    bottom: 0;
-    display:flex;
-    flex-direction:row;
-    text-align: right;
-}
-#search_text{
-    border:1px solid #2C974B;
-    flex:2;
-    height: 35px;
-}
-</style>
