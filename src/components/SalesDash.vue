@@ -322,10 +322,6 @@ export default{
 .search-item-result{
     flex:50%;
 }
-.search-result-list, .cart-heading{
-  overflow: hidden;
-  background-color:#3493DF;
-}
 .cart-heading li{
     width:25%;
     float:left;

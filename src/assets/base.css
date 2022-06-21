@@ -459,6 +459,10 @@ width: 50%;
   font-weight: bold;
   color:#008cff;
 }
+.search-result-list, .cart-heading{
+  overflow: hidden;
+  background-color: var(--submit-background);
+}
   
 
 /* other screen types */
