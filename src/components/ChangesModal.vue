@@ -1,7 +1,7 @@
 <template>
     <div class="backdrop" id="changes-modal">
         <div class="modal">
-        <div class="close"  @click.self="closeModal">+</div>
+        <button class='round-button' @click.self="closeModal"></button>
         <div class="item-to-update">
             <h4 class="text-center">Update the item below</h4>
             <div class="items-list">
