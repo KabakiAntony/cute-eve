@@ -10,14 +10,18 @@
     margin: 0;
     padding:0;
   }
+  html{
+    height: -webkit-fill-available;
+  }
   body{
     font-family: 'Jost', sans-serif;
-    min-height: 100vh;
     line-height: 1.6;
     font-size: 16px;
     text-rendering: optimizeLegibility;
     padding-bottom:50px;
     position: relative;
+    min-height:100vh;
+    min-height: -webkit-fill-available;
   }
   .center-text{
     text-align: center;
@@ -388,7 +392,7 @@ span{
 /* toast styling ...*/
 .error{
   background-color: #f0a19c;
-  border: 2px solid rgb(231, 24, 9);
+  border: 2px solid #e71809;
 }
 .success {
   background-color: #d4edda;
