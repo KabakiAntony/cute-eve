@@ -132,13 +132,20 @@ export function openAction(evt, actionName){
   }
 
   export function salesReportByDate(sales_data,columns_data,start_date, end_date){
-    //work on a way of getting the sum of duplicate key value pairs
+   
 
     if(sales_data){
-      let sales_total = sales_data.reduce((sum, el) => sum + el.total, 0);
+      // sum of duplicate items
+      const res = Array.from(sales_data.reduce((acc, {total, units_sold, ...r}) => {
+      const key = JSON.stringify(r);
+      const current = acc.get(key) || {...r, total: 0, units_sold: 0};  
+        return acc.set(key, {...current, total: current.total + total, units_sold: current.units_sold + units_sold});
+      }, new Map).values());
+
+      let sales_total = res.reduce((sum, el) => sum + el.total, 0);
       let totals = [{content: `Total = ${Number(sales_total.toFixed(2)).toLocaleString()}`, colSpan: 4, styles:{halign:'center'}}]
   
-      let new_data = [...sales_data.map(el => [
+      let new_data = [...res.map(el => [
         el.item, 
         el.units_sold, 
         el.unit_price.toFixed(2), 
