@@ -30,6 +30,7 @@
         <div class="item-on-sale">
             <form  @submit.prevent="add_to_cart" class="add-to-cart-form dash">
                 <input type="hidden" v-model="item_id">
+                <input type="hidden" v-model="item_buying_price">
                 <label>Item</label>
                 <input type="text" class="item-name" disabled v-model="item_name">
                 <label>Selling Price</label>
@@ -128,6 +129,7 @@ export default{
             item_name:null,
             item_units:null,
             item_selling_price:null,
+            item_buying_price:null,
             units_to_sell:null,
             post_sale:"Post sale",
             disabled:true,
@@ -169,6 +171,7 @@ export default{
             this.item_name = item.item;
             this.item_units = item.units;
             this.item_selling_price = item.selling_price;
+            this.item_buying_price = item.buying_price;
         },
         add_to_cart(){
             const available_units = document.getElementById("available_units").value;
@@ -178,6 +181,7 @@ export default{
                 const item_to_cart = {
                 "item_sys_id":this.item_id,
                 "item":this.item_name,
+                "buying_price":this.item_buying_price,
                 "selling_price":this.item_selling_price,
                 "units":this.units_to_sell,
                 "total":(this.item_selling_price * this.units_to_sell)
@@ -188,6 +192,7 @@ export default{
             this.item_name = "";
             this.item_units = "";
             this.item_selling_price = "";
+            this.item_buying_price = "";
             this.units_to_sell = "";
             }
             else
