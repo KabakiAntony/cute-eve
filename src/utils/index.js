@@ -132,7 +132,6 @@ export function openAction(evt, actionName){
   }
 
   export function salesReportByDate(sales_data,columns_data,start_date, end_date){
-   console.log(sales_data)
 
     if(sales_data){
       // sum of duplicate items
