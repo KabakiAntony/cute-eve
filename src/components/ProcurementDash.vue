@@ -67,13 +67,24 @@
         <input type="date" v-model="end_date" required>
         <button :class="action" class="submit dashboard-submit" @click="generate_dated_sale_report">{{ dated_sales_submit }}</button>
     </div>
+    <hr>
+    <div class="dash">
+        <h4>Composite item information  by date</h4>
+        <p>Show a sales report and other composite information for an item for a given duration, just enter the start and end date.</p>
+        <label>Start date</label>
+        <input type="date"  v-model="composite_start_date" required>
+        <label>End date</label>
+        <input type="date" v-model="composite_end_date" required>
+        <button :class="action" class="submit dashboard-submit" @click="generate_dated_composite_report">{{ composite_item_submit }}</button>
+    </div>
 </div>
 </template>
 
 <script>
 import Search from  "@/components/Search.vue"
 import ChangesModal  from "@/components/ChangesModal.vue"
-import { 
+import {
+    makeExcelFile, 
     openAction,
     loadToast, 
     loadSpinner, 
@@ -103,15 +114,19 @@ export default{
             update_item_submit: "Save changes",
             get_stock_submit: "Get stock report",
             dated_sales_submit: "Get sales report",
+            composite_item_submit: "Get composite report",
             showChangesModal:false,
             start_date:"",
             end_date:"",
+            composite_start_date:"",
+            composite_end_date:"",
             action:null,
             items:[],
             search_result:[],
         }
     },
     methods:{
+        makeExcelFile,
         openAction,
         loadToast,
         loadSpinner,
@@ -247,7 +262,53 @@ export default{
               { header:'TOTAL', dataKey: 'total' },
               ]
             this.salesReportByDate(sales_data, columns, this.start_date, this.end_date);
-        }
+        },
+        async get_dated_composite_data(){
+            this.action="submitting";
+            this.composite_item_submit=" ",
+            this.loadSpinner();
+            try{
+                    const url = `${this.$api}items/${this.composite_start_date}/${this.composite_end_date}`
+                    const res = await fetch(url,{
+                    method:'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'auth_token':this.$store.getters.AuthToken
+                    },
+                    })
+                    const response = await res.json()
+                    if (response.status === 200){
+                        this.unloadSpinner();
+                        this.message = "Report data fetched successful, wait for report to render.";
+                        this.type = "success";
+                        this.$emit('actionFeedback', this.message,this.type);
+                        return response.data;
+                    }
+                    else{
+                        this.unloadSpinner();
+                        this.message = response.error
+                        this.type ="error"
+                        this.$emit('actionFeedback', this.message,this.type)
+                        this.action=" ";
+                        this.composite_item_submit="Get composite report";
+                    }
+                }
+                catch(err){
+                    let error = "The server is offline or unreachable."
+                    return err
+                }
+        },
+        async generate_dated_composite_report(){
+            let composite_data = await  this.get_dated_composite_data();
+            this.action=" ";
+            this.composite_item_submit="Get composite report";
+            let fileHeaders = [
+                "Item","Units In Stock", "Unit Purchase Price", "Unit Selling Price",
+                "Units Sold", "Total Sale", "Unit Profit Margin", "Total Profit Margin"
+            ]
+          let file_name = `Composite item data for items sold between the ${this.composite_start_date} and ${this.composite_end_date}.xlsx`
+          this.makeExcelFile(composite_data,fileHeaders,file_name)
+        },
         // other methods come here
     },
     // lifecycle hooks below here.
