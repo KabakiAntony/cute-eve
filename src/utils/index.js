@@ -132,7 +132,7 @@ export function openAction(evt, actionName){
   }
 
   export function salesReportByDate(sales_data,columns_data,start_date, end_date){
-   
+   console.log(sales_data)
 
     if(sales_data){
       // sum of duplicate items
@@ -285,4 +285,27 @@ export function openAction(evt, actionName){
 
   export function depletedStock(stock_data,columns_data){
     // this should show stocks that are zero
+  }
+
+export function makeExcelFile(file,headers,file_name){
+    let createXLSLFormatObj = [];  
+    let xlsHeader = headers
+    let xlsRows = file
+  
+    createXLSLFormatObj.push(xlsHeader);
+    $.each(xlsRows, function(index, value) {
+        let innerRowData = [];
+        $.each(value, function(ind, val) {
+            innerRowData.push(val);
+        });
+        createXLSLFormatObj.push(innerRowData);
+    });
+  
+    let filename =  file_name;
+    let ws_name = "Item Information";
+    let wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.aoa_to_sheet(createXLSLFormatObj);
+  
+    XLSX.utils.book_append_sheet(wb, ws, ws_name);
+    XLSX.writeFile(wb, filename);
   }
